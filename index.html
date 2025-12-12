@@ -429,7 +429,7 @@
                                 alt="256 TPU cores running Lagrangian Particle Tracking"
                                 style="width:100%; border-radius:0.75rem;">
                             <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                256-TPU simulation of particles in cross-flow jet.
+                                256-TPU simulation of particles in cross-flow jet run on Google Cloud.
                             </figcaption>
                         </figure>
                     </div>
@@ -439,16 +439,37 @@
                 <li>
                     <h3>Differentiable Rendering for Flame Diagnostics – MIT</h3>
                     <div class="project-meta">2025– · CUDA / JAX · Inverse Rendering</div>
-                    <p>
-                        Developed a GPU-accelerated differentiable volume renderer for hyperspectral flame diagnostics,
-                        enabling reconstruction of 3D temperature and species fields via backpropagation through
-                        non-gray light-transport models. Combined diffusion-style priors with physical rendering for
-                        robust reconstruction from sparse views.
-                    </p>
-                    <div class="tag-row">
-                        <span class="pill">Differentiable Rendering</span>
-                        <span class="pill">JAX</span>
-                        <span class="pill">Inverse Problems</span>
+
+                    <div class="project-flex">
+                        <div>
+                            <p>
+                                Developing a GPU-accelerated differentiable volume renderer for hyperspectral flame
+                                diagnostics,
+                                enabling reconstruction of 3D temperature and species fields via backpropagation through
+                                non-gray light-transport models. Combined diffusion-style priors with physical rendering
+                                for
+                                robust reconstruction from sparse views.
+                            </p>
+                            <div class="tag-row">
+                                <span class="pill">Differentiable Rendering</span>
+                                <span class="pill">JAX</span>
+                                <span class="pill">Inverse Problems</span>
+                            </div>
+                            <button class="more-info-btn" onclick="openModal('flame-modal')">
+                                More info
+                            </button>
+                        </div>
+
+                        <div>
+                            <figure style="margin:0;">
+                                <img src="MVS.png" alt="Multi-view stereo differentiable rendering of a flame"
+                                    style="width:100%; border-radius:0.75rem;">
+                                <figcaption
+                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                    Multi-view stereo differentiable rendering of a flame
+                                </figcaption>
+                            </figure>
+                        </div>
                     </div>
                 </li>
 
@@ -459,18 +480,27 @@
                     <div class="project-flex">
                         <div>
                             <p>
-                                Led development of a CUDA-based 3D Monte Carlo ray tracer with BVH-accelerated traversal
-                                for
-                                radiative transport in combustion systems. Achieved ~400× speedup on NVIDIA GPUs and
-                                integrated
-                                the solver into OpenFOAM for coupled CFD–radiation simulations on the Frontier
-                                supercomputer.
+                                Developed a distributed backward Monte Carlo ray tracing (BMCRT) solver for radiatively
+                                participating media, achieving improved scaling on multi-GPU systems. The approach uses
+                                a
+                                factorized formulation that computes rank-local optical thickness and emission
+                                contributions
+                                independently, then communicates only small summary messages rather than full ray data.
+                                This
+                                reduces communication from O(cell intersections) to O(rank intersections), enabling
+                                efficient
+                                computation of absorption at every voxel across distributed-memory architectures.
+                                Implemented
+                                in Kokkos for performance portability and integrated with OpenFOAM for coupled
+                                CFD–radiation
+                                simulations on the Frontier supercomputer.
                             </p>
                             <div class="tag-row">
                                 <span class="pill">CUDA</span>
                                 <span class="pill">BVH</span>
                                 <span class="pill">Monte Carlo</span>
                                 <span class="pill">OpenFOAM</span>
+                                <span class="pill">Multi-GPU</span>
                             </div>
                         </div>
 
@@ -478,6 +508,47 @@
                             <figure style="margin:0;">
                                 <img src="multi_gpu_tracing.png" alt="Multi-GPU ray tracing visualization"
                                     style="width:100%; border-radius:0.75rem;">
+                            </figure>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <h3>Differentiable Physics & Neural ODEs for Reaction-Diffusion Inference – MIT</h3>
+                    <div class="project-meta">2024– · PyTorch / JAX · Neural ODEs · Chemical Kinetics</div>
+
+                    <div class="project-flex">
+                        <div>
+                            <p>
+                                Developing methods for simultaneous reaction and transport inference in thermal wave
+                                reaction-diffusion equations using differentiable physics and neural ODEs. The approach
+                                enables joint estimation of chemical reaction rates and transport properties
+                                (diffusivity,
+                                thermal conductivity) from observed temperature and species evolution profiles.
+                            </p>
+                            <p>
+                                A key component involves using chemical reaction neural networks (CRNNs) to extract
+                                chemical kinetic rates directly from observed species evolution profiles. By embedding
+                                physics-based reaction networks within a differentiable framework, the method can learn
+                                rate constants and reaction pathways that are consistent with both the observed data and
+                                thermodynamic constraints.
+                            </p>
+                            <div class="tag-row">
+                                <span class="pill">Neural ODEs</span>
+                                <span class="pill">Differentiable Physics</span>
+                                <span class="pill">Chemical Kinetics</span>
+                                <span class="pill">Reaction-Diffusion</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <figure style="margin:0;">
+                                <img src="rxn_diff.png" alt="Reaction-diffusion inference using differentiable physics"
+                                    style="width:100%; border-radius:0.75rem;">
+                                <figcaption
+                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                    Simultaneous reaction and transport inference in thermal wave systems
+                                </figcaption>
                             </figure>
                         </div>
                     </div>
@@ -648,7 +719,7 @@
                             <img src="lpt_top_view.gif" alt="256 TPU cores running Lagrangian Particle Tracking"
                                 style="width:100%; border-radius:0.75rem;">
                             <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Aft view of Lagrangian Particle Tracking on 256 TPU cores
+                                Aft view of Lagrangian Particle Tracking.
                             </figcaption>
                         </figure>
 
@@ -674,8 +745,147 @@
         </div>
     </div>
 
+    <!-- DIFFERENTIABLE FLAME DIAGNOSTICS MODAL (LONG VERSION) -->
+    <div class="modal-overlay" id="flame-modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="flame-modal-title">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="flame-modal-title">
+                        Differentiable Flame Diagnostics (Example Project) – McKenna Burner
+                    </div>
+                    <div class="modal-meta">
+                        Turning spectra into temperature/species maps · Calibration-aware fitting · Uncertainty
+                        estimates
+                    </div>
+                </div>
+                <button class="modal-close" aria-label="Close" onclick="closeModal('flame-modal')">
+                    ×
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="viz-grid">
+                    <div>
+                        <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem;">Ongoing Work: 3-D
+                            Reconstruction from External Images</h3>
+                        <p>
+                            I'm currently working on extending these ideas to 3-D reconstruction of temperature and
+                            species fields from external camera images. This work connects the latest optimization-based
+                            approaches from the computer vision community—specifically <strong>Neural Radiance Fields
+                                (NeRF)</strong> and <strong>Gaussian Splatting</strong>—with physics-based volume
+                            rendering for combustion diagnostics.
+                        </p>
+                        <p>
+                            The key challenge is adapting these CV techniques to handle participating media (where light
+                            gets absorbed and scattered as it passes through the flame) rather than just surface
+                            rendering. I'm implementing this entirely in <strong>CUDA</strong> with manually written
+                            differentiable operators, which allows for optimal GPU acceleration and fine-grained control
+                            over the rendering pipeline. This approach enables efficient gradient-based optimization of
+                            3-D thermochemical fields directly from multi-view camera observations.
+                        </p>
+                        <p>
+                            The core approach addresses the ill-posed nature of the inverse tomography problem by
+                            combining models with strong inductive bias (NeRF/Gaussian Splatting) with data-enhancing
+                            regularization strategies. This includes both <strong>physics-informed regularizers</strong>
+                            that enforce consistency with radiative transfer equations and thermodynamic constraints, as
+                            well
+                            as <strong>data-driven regularizers</strong> learned from training data to capture spatial
+                            smoothness and structural priors. By jointly optimizing the 3-D field representation with
+                            these
+                            complementary regularization terms, the method reduces solution ambiguity and enables robust
+                            reconstruction from sparse, noisy multi-view observations.
+                        </p>
+
+                        <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Hybrid Physics-ML for
+                            FTIR
+                            Spectra (1-D Reconstruction)</h3>
+                        <p>
+                            In earlier work, I contributed to a hybrid physics-machine learning framework for inferring
+                            temperature, path length, and species mole fractions from FTIR emission spectra of ammonia
+                            flames. The model is trained on high-fidelity synthetic spectra generated via line-by-line
+                            radiative transfer using HITEMP/HITRAN spectroscopic databases.
+                        </p>
+                        <p>
+                            To address challenges of spectral overlap, minor-species detectability, and measurement
+                            noise, the architecture incorporates physics-based regularization and a self-supervised
+                            spectrum reconstruction module. The reconstruction module enforces consistency with the
+                            radiative transfer equation, serving as an auxiliary task that improves the learned spectral
+                            representation. This hybrid approach enables robust multi-target inference across species
+                            spanning several orders of magnitude in concentration, outperforming standard partial least
+                            squares regression while remaining compact and interpretable.
+                        </p>
+                        <p>
+                            <a href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank"
+                                rel="noopener">Publication: Chen, Z., Tricard, N., Deng, S., <em>Hybrid physics-machine
+                                    learning model for multispecies and temperature inference from FTIR spectra:
+                                    Application to ammonia flames</em>, Proceedings of the Combustion Institute,
+                                2025.</a>
+                        </p>
+
+                        <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Differentiable
+                            Spectroscopy for TDLAS (McKenna Burner Example)</h3>
+                        <p>
+                            Another example applies differentiable physics to tunable diode laser absorption
+                            spectroscopy
+                            (TDLAS) for reconstructing temperature and NO fields in an axisymmetric McKenna burner. By
+                            implementing the Beer-Lambert law in <strong>JAX</strong>, the method computes exact
+                            gradients
+                            of predicted spectra with respect to temperature, species concentrations, and calibration
+                            parameters, enabling joint optimization of flame state and nuisance effects like laser
+                            drift.
+                        </p>
+                        <p>
+                            For uncertainty quantification, I use <strong>Stein Variational Gradient Descent
+                                (SVGD)</strong> to approximate the full posterior distribution over possible flame
+                            states. SVGD maintains a set of candidate solutions that evolve to match the data while
+                            respecting the physics, providing uncertainty bands that naturally widen in regions with
+                            sparse constraints. This approach enables robust reconstruction from as little as a single
+                            noisy line-of-sight measurement, with quantified uncertainty that reflects data limitations.
+                        </p>
+                        <p class="muted">
+                            Acknowledgments: ExxonMobil Corporation and GE Vernova.
+                        </p>
+
+                        <!-- TODO: user will provide slide deck link; add here -->
+                    </div>
+
+                    <div>
+                        <figure style="margin:0 0 1rem 0;">
+                            <img src="FTIR_algorithm_placeholder.png"
+                                alt="Hybrid physics-ML algorithm for FTIR inference"
+                                style="width:100%; border-radius:0.75rem;">
+                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                Hybrid physics-ML algorithm for 1-D FTIR reconstruction
+                            </figcaption>
+                        </figure>
+                        <figure style="margin:0 0 1rem 0;">
+                            <img src="axisymmetric.png" alt="Axisymmetric flame reconstruction domain"
+                                style="width:100%; border-radius:0.75rem;">
+                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                Axisymmetric flame reconstruction domain
+                            </figcaption>
+                        </figure>
+                        <figure style="margin:0;">
+                            <img src="axisymmetric_results.png"
+                                alt="Temperature and pollutant NO inference from a single line-of-sight laser in a real ammonia experiment"
+                                style="width:100%; border-radius:0.75rem;">
+                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                Temperature and pollutant NO inference from a single line-of-sight laser in a real
+                                ammonia experiment
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         document.getElementById("year").textContent = new Date().getFullYear();
+
+        function isAnyModalOpen() {
+            return Array.from(document.querySelectorAll('.modal-overlay')).some((m) => m.style.display === 'flex');
+        }
 
         function openModal(id) {
             const modal = document.getElementById(id);
@@ -689,23 +899,29 @@
             const modal = document.getElementById(id);
             if (!modal) return;
             modal.style.display = 'none';
-            document.body.style.overflow = '';
+            if (!isAnyModalOpen()) {
+                document.body.style.overflow = '';
+            }
             modal.setAttribute('aria-hidden', 'true');
         }
 
         // Optional: close modal when clicking outside content
         document.addEventListener('click', function (event) {
-            const modal = document.getElementById('lpt-modal');
-            if (!modal) return;
-            if (event.target === modal) {
-                closeModal('lpt-modal');
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) return;
+            if (target.classList.contains('modal-overlay')) {
+                if (target.id) closeModal(target.id);
             }
         });
 
         // Optional: close on ESC
         document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
-                closeModal('lpt-modal');
+                document.querySelectorAll('.modal-overlay').forEach((modal) => {
+                    if (modal instanceof HTMLElement && modal.style.display === 'flex' && modal.id) {
+                        closeModal(modal.id);
+                    }
+                });
             }
         });
     </script>
