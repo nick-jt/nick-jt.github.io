@@ -181,16 +181,22 @@
             margin-top: 0.5rem;
             display: inline-block;
             border-radius: 999px;
-            border: 1px solid #d1d5db;
-            padding: 0.3rem 0.9rem;
-            font-size: 0.85rem;
+            border: 2px solid #2563eb;
+            padding: 0.45rem 1.1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             background: #ffffff;
             cursor: pointer;
-            color: #374151;
+            color: #2563eb;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
         }
 
         .more-info-btn:hover {
-            background: #f3f4f6;
+            background: #2563eb;
+            color: #ffffff;
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
+            transform: translateY(-1px);
         }
 
         /* Long-version visualization grid (inside modal) */
@@ -419,6 +425,13 @@
                                 <span class="pill">Multiphase Flow</span>
                                 <span class="pill">Wildfire Spotting</span>
                             </div>
+                            <p style="margin-top: 0.75rem; font-size: 0.9rem;">
+                                <strong>External links:</strong>
+                                <a href="https://docs.google.com/presentation/d/1TyUc8KmSehkCKj33XfmS4Y0wHVA6zFrM4yvr3eGUTqU/edit?usp=sharing"
+                                    target="_blank" rel="noopener">Full Presentation</a> ·
+                                <a href="https://github.com/google-research/swirl-lm/tree/main/swirl_lm/physics/lpt"
+                                    target="_blank" rel="noopener">LPT Module GitHub</a>
+                            </p>
                             <button class="more-info-btn" onclick="openModal('lpt-modal')">
                                 More info
                             </button>
@@ -455,6 +468,13 @@
                                 <span class="pill">JAX</span>
                                 <span class="pill">Inverse Problems</span>
                             </div>
+                            <p style="margin-top: 0.75rem; font-size: 0.9rem;">
+                                <strong>Related publication:</strong>
+                                <a href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank"
+                                    rel="noopener">Chen, Z., Tricard, N., Deng, S., <em>Hybrid physics-machine learning
+                                        model for multispecies and temperature inference from FTIR spectra</em>,
+                                    Proceedings of the Combustion Institute, 2025.</a>
+                            </p>
                             <button class="more-info-btn" onclick="openModal('flame-modal')">
                                 More info
                             </button>
