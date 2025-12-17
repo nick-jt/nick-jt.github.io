@@ -357,6 +357,8 @@
                 <div class="hero-links">
                     <a href="https://github.com/nick-jt" target="_blank" rel="noopener">GitHub</a>
                     <a href="https://www.linkedin.com/in/nick-tricard" target="_blank" rel="noopener">LinkedIn</a>
+                    <a href="https://scholar.google.com/citations?user=jPl61hUAAAAJ&hl=en" target="_blank"
+                        rel="noopener">Google Scholar</a>
                     <!-- Update this when you host your PDF -->
                     <a
                         href="https://mitprod-my.sharepoint.com/:b:/g/personal/ntricard_mit_edu/IQBq2-StWSzZQ7nBPBN7Yr1oASq4JnTUb53tZE0S8RM2SwY?e=Z3B4iE">CV
@@ -534,31 +536,42 @@
                 </li>
 
                 <li>
-                    <h3>Differentiable Physics & Neural ODEs for Reaction-Diffusion Inference – MIT</h3>
-                    <div class="project-meta">2024– · PyTorch / JAX · Neural ODEs · Chemical Kinetics</div>
+                    <h3>Differentiable Physics & Inverse Modeling – MIT</h3>
+                    <div class="project-meta">2023– · PyTorch / JAX / Julia · Neural ODEs · PDE-Constrained Optimization
+                    </div>
 
                     <div class="project-flex">
                         <div>
                             <p>
-                                Developing methods for simultaneous reaction and transport inference in thermal wave
-                                reaction-diffusion equations using differentiable physics and neural ODEs. The approach
-                                enables joint estimation of chemical reaction rates and transport properties
-                                (diffusivity,
-                                thermal conductivity) from observed temperature and species evolution profiles.
+                                Developing general frameworks for inverse problems in reacting systems using
+                                differentiable
+                                physics, neural ODEs, and PDE-constrained optimization. The approach combines automatic
+                                differentiation with physics-based models to infer material properties, chemical
+                                kinetics,
+                                and transport coefficients from experimental observations. Applications span energetic
+                                materials,
+                                thermal wave propagation, carbon nanotube synthesis, and complex hydrocarbon combustion
+                                chemistry.
                             </p>
                             <p>
-                                A key component involves using chemical reaction neural networks (CRNNs) to extract
-                                chemical kinetic rates directly from observed species evolution profiles. By embedding
-                                physics-based reaction networks within a differentiable framework, the method can learn
-                                rate constants and reaction pathways that are consistent with both the observed data and
-                                thermodynamic constraints.
+                                By embedding physics-based governing equations within differentiable frameworks
+                                (PyTorch, JAX, Julia),
+                                the methods enable gradient-based optimization of high-dimensional parameter spaces
+                                while maintaining
+                                thermodynamic consistency. This includes forward and adjoint sensitivity analysis for
+                                systems with
+                                hundreds of chemical species and reactions, providing robust inference from sparse,
+                                noisy measurements.
                             </p>
                             <div class="tag-row">
                                 <span class="pill">Neural ODEs</span>
                                 <span class="pill">Differentiable Physics</span>
+                                <span class="pill">Inverse Problems</span>
                                 <span class="pill">Chemical Kinetics</span>
-                                <span class="pill">Reaction-Diffusion</span>
                             </div>
+                            <button class="more-info-btn" onclick="openModal('diffphys-modal')">
+                                More info
+                            </button>
                         </div>
 
                         <div>
@@ -567,9 +580,46 @@
                                     style="width:100%; border-radius:0.75rem;">
                                 <figcaption
                                     style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                    Simultaneous reaction and transport inference in thermal wave systems
+                                    Inverse modeling in thermal wave systems
                                 </figcaption>
                             </figure>
+                        </div>
+                    </div>
+                </li>
+
+                <li>
+                    <h3>Thermal-Fluids Modeling & Reacting Flow Simulation – Multi-Institutional</h3>
+                    <div class="project-meta">2019– · CFD · Heat Transfer · Multiphase Flow · Propulsion</div>
+
+                    <div class="project-flex">
+                        <div>
+                            <p>
+                                Conducting comprehensive thermal-fluids modeling across diverse combustion and
+                                propulsion
+                                systems, including hypersonic propulsion, gas turbine combustors, spray detonations, and
+                                thermal barrier coatings. Work spans GPU-accelerated CFD using Discontinuous Galerkin
+                                and
+                                finite volume methods, conjugate heat transfer with participating media radiation, and
+                                reduced-order modeling of multi-phase reacting flows.
+                            </p>
+                            <p>
+                                Collaborations include the U.S. Naval Research Laboratory (hypersonic ramjet
+                                propulsion),
+                                Pratt & Whitney and Penn State (gas turbine combustor analysis), and fundamental studies
+                                of spray detonation dynamics. Applications include time-accurate reacting Navier-Stokes
+                                simulations, radiation-convection coupling in high-temperature environments, and
+                                validation
+                                of design tools against experimental data.
+                            </p>
+                            <div class="tag-row">
+                                <span class="pill">CFD</span>
+                                <span class="pill">Reacting Flow</span>
+                                <span class="pill">Heat Transfer</span>
+                                <span class="pill">Multiphase Flow</span>
+                            </div>
+                            <button class="more-info-btn" onclick="openModal('thermalfluids-modal')">
+                                More info
+                            </button>
                         </div>
                     </div>
                 </li>
@@ -599,6 +649,9 @@
                         waves</em>, in preparation for PNAS.
                 </li>
             </ul>
+            <button class="more-info-btn" onclick="openModal('pubs-modal')" style="margin-top: 0.5rem;">
+                More Publications
+            </button>
         </section>
 
         <!-- CV -->
@@ -623,7 +676,9 @@
                 Email: <a href="mailto:ntricard@mit.edu">ntricard@mit.edu</a><br />
                 GitHub: <a href="https://github.com/nick-jt" target="_blank" rel="noopener">github.com/nick-jt</a><br />
                 LinkedIn: <a href="https://www.linkedin.com/in/nick-tricard" target="_blank"
-                    rel="noopener">linkedin.com/in/nick-tricard</a>
+                    rel="noopener">linkedin.com/in/nick-tricard</a><br />
+                Google Scholar: <a href="https://scholar.google.com/citations?user=jPl61hUAAAAJ&hl=en" target="_blank"
+                    rel="noopener">Google Scholar Profile</a>
             </p>
         </section>
 
@@ -784,41 +839,42 @@
             </div>
 
             <div class="modal-body">
+                <!-- Section 1: 3-D Reconstruction -->
+                <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem;">Ongoing Work: 3-D
+                    Reconstruction from External Images</h3>
+                <p>
+                    I'm currently working on extending these ideas to 3-D reconstruction of temperature and
+                    species fields from external camera images. This work connects the latest optimization-based
+                    approaches from the computer vision community—specifically <strong>Neural Radiance Fields
+                        (NeRF)</strong> and <strong>Gaussian Splatting</strong>—with physics-based volume
+                    rendering for combustion diagnostics.
+                </p>
+                <p>
+                    The key challenge is adapting these CV techniques to handle participating media (where light
+                    gets absorbed and scattered as it passes through the flame) rather than just surface
+                    rendering. I'm implementing this entirely in <strong>CUDA</strong> with manually written
+                    differentiable operators, which allows for optimal GPU acceleration and fine-grained control
+                    over the rendering pipeline. This approach enables efficient gradient-based optimization of
+                    3-D thermochemical fields directly from multi-view camera observations.
+                </p>
+                <p>
+                    The core approach addresses the ill-posed nature of the inverse tomography problem by
+                    combining models with strong inductive bias (NeRF/Gaussian Splatting) with data-enhancing
+                    regularization strategies. This includes both <strong>physics-informed regularizers</strong>
+                    that enforce consistency with radiative transfer equations and thermodynamic constraints, as
+                    well
+                    as <strong>data-driven regularizers</strong> learned from training data to capture spatial
+                    smoothness and structural priors. By jointly optimizing the 3-D field representation with
+                    these
+                    complementary regularization terms, the method reduces solution ambiguity and enables robust
+                    reconstruction from sparse, noisy multi-view observations.
+                </p>
+
+                <!-- Section 2: Hybrid Physics-ML for FTIR -->
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Hybrid Physics-ML for
+                    FTIR Spectra (1-D Reconstruction)</h3>
                 <div class="viz-grid">
                     <div>
-                        <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem;">Ongoing Work: 3-D
-                            Reconstruction from External Images</h3>
-                        <p>
-                            I'm currently working on extending these ideas to 3-D reconstruction of temperature and
-                            species fields from external camera images. This work connects the latest optimization-based
-                            approaches from the computer vision community—specifically <strong>Neural Radiance Fields
-                                (NeRF)</strong> and <strong>Gaussian Splatting</strong>—with physics-based volume
-                            rendering for combustion diagnostics.
-                        </p>
-                        <p>
-                            The key challenge is adapting these CV techniques to handle participating media (where light
-                            gets absorbed and scattered as it passes through the flame) rather than just surface
-                            rendering. I'm implementing this entirely in <strong>CUDA</strong> with manually written
-                            differentiable operators, which allows for optimal GPU acceleration and fine-grained control
-                            over the rendering pipeline. This approach enables efficient gradient-based optimization of
-                            3-D thermochemical fields directly from multi-view camera observations.
-                        </p>
-                        <p>
-                            The core approach addresses the ill-posed nature of the inverse tomography problem by
-                            combining models with strong inductive bias (NeRF/Gaussian Splatting) with data-enhancing
-                            regularization strategies. This includes both <strong>physics-informed regularizers</strong>
-                            that enforce consistency with radiative transfer equations and thermodynamic constraints, as
-                            well
-                            as <strong>data-driven regularizers</strong> learned from training data to capture spatial
-                            smoothness and structural priors. By jointly optimizing the 3-D field representation with
-                            these
-                            complementary regularization terms, the method reduces solution ambiguity and enables robust
-                            reconstruction from sparse, noisy multi-view observations.
-                        </p>
-
-                        <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Hybrid Physics-ML for
-                            FTIR
-                            Spectra (1-D Reconstruction)</h3>
                         <p>
                             In earlier work, I contributed to a hybrid physics-machine learning framework for inferring
                             temperature, path length, and species mole fractions from FTIR emission spectra of ammonia
@@ -841,9 +897,24 @@
                                     Application to ammonia flames</em>, Proceedings of the Combustion Institute,
                                 2025.</a>
                         </p>
+                    </div>
+                    <div>
+                        <figure style="margin:0;">
+                            <img src="FTIR_algorithm_placeholder.png"
+                                alt="Hybrid physics-ML algorithm for FTIR inference"
+                                style="width:100%; border-radius:0.75rem;">
+                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                Hybrid physics-ML algorithm for 1-D FTIR reconstruction
+                            </figcaption>
+                        </figure>
+                    </div>
+                </div>
 
-                        <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Differentiable
-                            Spectroscopy for TDLAS (McKenna Burner Example)</h3>
+                <!-- Section 3: Differentiable Spectroscopy for TDLAS -->
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Differentiable
+                    Spectroscopy for TDLAS (McKenna Burner Example)</h3>
+                <div class="viz-grid">
+                    <div>
                         <p>
                             Another example applies differentiable physics to tunable diode laser absorption
                             spectroscopy
@@ -865,19 +936,8 @@
                         <p class="muted">
                             Acknowledgments: ExxonMobil Corporation and GE Vernova.
                         </p>
-
-                        <!-- TODO: user will provide slide deck link; add here -->
                     </div>
-
                     <div>
-                        <figure style="margin:0 0 1rem 0;">
-                            <img src="FTIR_algorithm_placeholder.png"
-                                alt="Hybrid physics-ML algorithm for FTIR inference"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Hybrid physics-ML algorithm for 1-D FTIR reconstruction
-                            </figcaption>
-                        </figure>
                         <figure style="margin:0 0 1rem 0;">
                             <img src="axisymmetric.png" alt="Axisymmetric flame reconstruction domain"
                                 style="width:100%; border-radius:0.75rem;">
@@ -896,6 +956,469 @@
                         </figure>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIFFERENTIABLE PHYSICS MODAL -->
+    <div class="modal-overlay" id="diffphys-modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="diffphys-modal-title">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="diffphys-modal-title">
+                        Differentiable Physics & Inverse Modeling – MIT
+                    </div>
+                    <div class="modal-meta">
+                        2023– · PyTorch / JAX / Julia · Neural ODEs · PDE-Constrained Optimization
+                    </div>
+                </div>
+                <button class="modal-close" aria-label="Close" onclick="closeModal('diffphys-modal')">
+                    ×
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    Developing general frameworks for inverse problems in reacting systems using differentiable physics,
+                    neural ODEs, and PDE-constrained optimization. The approach combines automatic differentiation with
+                    physics-based models to infer material properties, chemical kinetics, and transport coefficients
+                    from
+                    experimental observations.
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Reaction-Diffusion Inference
+                    in Energetic Materials</h3>
+                <p>
+                    <strong>Application:</strong> Energetic Materials Characterization<br>
+                    <strong>Period:</strong> August 2023 – present<br>
+                    <strong>Collaborators:</strong> DENG Lab (MIT)
+                </p>
+                <p>
+                    Developing methods for simultaneous reaction and transport inference in thermal wave
+                    reaction-diffusion
+                    equations using differentiable physics and neural ODEs. The approach combines PDE-constrained
+                    optimization
+                    with automatic differentiation to learn material properties and chemical kinetics from observations
+                    of temperature. This has strong applications in areas from weather modeling to propulsion systems
+                    and wildfires.
+                </p>
+                <p>
+                    Introducing multi-step, complex chemistry inference through symbolic machine learning to enhance
+                    inverse
+                    modeling capabilities of existing inference tools. Implementation uses automatic differentiation and
+                    adjoint
+                    sensitivity analysis in the Julia programming language, enabling joint estimation of chemical
+                    reaction rates
+                    and transport properties (diffusivity, thermal conductivity) from observed temperature and species
+                    evolution
+                    profiles.
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Neural ODEs for Chemical
+                    Kinetics</h3>
+                <p>
+                    <strong>Application:</strong> Complex Reaction Mechanism Inference<br>
+                    <strong>Period:</strong> August 2023 – May 2024<br>
+                    <strong>Collaborators:</strong> DENG Lab (MIT)
+                </p>
+                <p>
+                    Applied neural ordinary differential equations (ODEs) in the form of the chemical reaction neural
+                    network (CRNN) to learn kinetic rates of stiff chemical
+                    reactions,
+                    scaling to complex methane, JP-10, and hydrocarbon chemical mechanisms with hundreds of species and
+                    thousands
+                    of reactions. By embedding physics-based reaction networks within a differentiable framework, the
+                    method learns
+                    rate constants and reaction pathways consistent with both observed data and thermodynamic
+                    constraints.
+                </p>
+                <p>
+                    The approach uses forward and adjoint sensitivity analysis to compute gradients efficiently,
+                    enabling
+                    gradient-based optimization of high-dimensional parameter spaces. This includes handling stiff
+                    chemical
+                    systems where reaction timescales span many orders of magnitude, requiring specialized ODE solvers
+                    and
+                    careful numerical treatment.
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Neural-ODE Analysis of Carbon
+                    Nanotube Synthesis</h3>
+                <p>
+                    <strong>Application:</strong> CNT Reactor Chemistry & FTIR Diagnostics<br>
+                    <strong>Period:</strong> December 2023 – present<br>
+                    <strong>Collaborators:</strong> DENG Lab (MIT)
+                </p>
+                <p>
+                    Inferred CNT reactor chemistry from radiation diagnostics to improve <em>in-situ</em> understanding
+                    of
+                    chemical vapor deposition reactors and the growth of carbon nanotubes. Applied CRNN to directly
+                    extract CNT growth rates from FTIR spectra, enabling more efficient exploration of CNT growth
+                    mechanisms and reaction pathways.
+                </p>
+                <p>
+                    Developed spatial temperature and composition inference from FTIR spectra for real-time monitoring
+                    of
+                    floating catalyst chemical vapor deposition (FCCVD) processes. This work combines spectroscopic
+                    measurements
+                    with inverse modeling to reconstruct reactor state from emission/absorption spectra, providing
+                    critical
+                    feedback for process control and optimization.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Related publication:</strong>
+                    <a href="https://doi.org/10.1039/D4NR05487C" target="_blank" rel="noopener">
+                        Wang, L., Tricard, N., Chen, Z., Deng, S., <em>Progress in Computational Methods and Mechanistic
+                            Insights on the Growth of Carbon Nanotubes</em>, Nanoscale, 17 (2025), 11812.
+                    </a>
+                </p>
+
+                <div class="tag-row" style="margin-top: 1.5rem;">
+                    <span class="pill">Neural ODEs</span>
+                    <span class="pill">Differentiable Physics</span>
+                    <span class="pill">Chemical Kinetics</span>
+                    <span class="pill">Energetic Materials</span>
+                    <span class="pill">FTIR Diagnostics</span>
+                    <span class="pill">Carbon Nanotubes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- THERMAL-FLUIDS MODAL -->
+    <div class="modal-overlay" id="thermalfluids-modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="thermalfluids-modal-title">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="thermalfluids-modal-title">
+                        Thermal-Fluids Modeling & Reacting Flow Simulation
+                    </div>
+                    <div class="modal-meta">
+                        2019– · CFD · Heat Transfer · Multiphase Flow · Propulsion
+                    </div>
+                </div>
+                <button class="modal-close" aria-label="Close" onclick="closeModal('thermalfluids-modal')">
+                    ×
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <p>
+                    Conducting comprehensive thermal-fluids modeling across diverse combustion and propulsion systems,
+                    spanning GPU-accelerated CFD, conjugate heat transfer with participating media radiation, and
+                    reduced-order modeling of multi-phase reacting flows.
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Solid Fuel Ramjet (SFRJ)
+                    Modeling</h3>
+                <p>
+                    <strong>Institution:</strong> U.S. Naval Research Laboratory<br>
+                    <strong>Period:</strong> May 2022 – March 2024<br>
+                    <strong>Focus:</strong> Hypersonic Propulsion
+                </p>
+                <p>
+                    Constructed mesh and executed time-accurate simulations of simplified hypersonic missile engines
+                    using
+                    GPU-accelerated Discontinuous-Galerkin (DG) reacting Navier-Stokes CFD. Contributed boundary
+                    conditions
+                    and numerics to C++-based military laboratory CFD code, enabling high-fidelity modeling of solid
+                    fuel
+                    ramjet combustors at varying Reynolds numbers and inlet conditions.
+                </p>
+                <p>
+                    The work investigated the effect of inlet boundary layer development and fluctuations on reacting
+                    flow
+                    in a backward-facing step combustor, comparing various turbulence models and inlet conditions.
+                    Results
+                    inform design of next-generation high-speed propulsion systems.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Related publication:</strong>
+                    Tricard, N. and Bojko, B., <em>Solid-fuel reacting flow in a backward-facing step combustor at
+                        varying
+                        Reynolds numbers and inlet conditions</em>, Journal of Propulsion and Power, in press (2025).
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Gas Turbine Combustor
+                    Radiation Modeling</h3>
+                <p>
+                    <strong>Institution:</strong> UConn CTF Laboratory, Pratt & Whitney<br>
+                    <strong>Period:</strong> August 2020 – May 2022<br>
+                    <strong>Focus:</strong> Commercial Aviation Engines
+                </p>
+                <p>
+                    Collaborated with the United Technologies Research Center to model radiative heat transfer in the
+                    Pratt & Whitney Geared Turbo-Fan combustor for the Airbus A320neo using GPU-accelerated Monte Carlo
+                    ray tracing. Analyzed the influence of non-gray radiation within the fluid, on the walls, and in the
+                    turbine section of the engine.
+                </p>
+                <p>
+                    Additional work with Penn State experimentalists investigated relative effects of radiation and
+                    convection
+                    in a gas-turbine combustor, applying GPU-accelerated radiation models to validate and interpret
+                    experimental
+                    observations in a Rich-burn, Quick-mix, Lean-burn (RQL) configuration.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Related publications:</strong><br>
+                    - Tricard, N., Johson, A., Meister, N., Hemchand, A., Zhao, X., <em>Numerical Analysis of Radiative
+                        Heat
+                        Transfer in a Rich-burn, Quick-mix, Lean-burn Combustor</em>, ASME Turbo Expo, Memphis, TN
+                    (2025).<br>
+                    - Colborn, J., O'Connor, J., Tricard, N., et al., <em>Interpreting heat flux measurements in a
+                        vitiated
+                        Backward-Facing step flow</em>, AIAA Journal (2024).
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Spray Detonation Modeling
+                </h3>
+                <p>
+                    <strong>Institution:</strong> UConn CTF Laboratory<br>
+                    <strong>Period:</strong> December 2019 – June 2022<br>
+                    <strong>Focus:</strong> Multiphase Combustion Dynamics
+                </p>
+                <p>
+                    Developed reduced-order 1-D detonation models in Python by reformulating multi-phase, compressible
+                    Euler
+                    equations with shockwaves and complex chemistry. Investigated heterogeneous effects on steady-state
+                    spray
+                    detonation structure, comparing ZND-type analytical solutions with transient Direct Numerical
+                    Simulation (DNS).
+                </p>
+                <p>
+                    The reduced-order models achieved excellent agreement with full 1-D and 2-D Navier-Stokes DNS
+                    solutions
+                    while reducing computational runtime by 1,000,000× compared to transient simulations, enabling rapid
+                    parametric studies of fuel droplet size, equivalence ratio, and pressure effects.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Related publications:</strong><br>
+                    - Tricard, N., Ghosh, A., Dammati, S. S., Poludnenko, A., & Zhao, X., <em>Steady and transient
+                        one-dimensional simulations of multiphase dodecane/air detonations</em>, International
+                    Colloquium on
+                    the Dynamics of Explosions and Reactive Systems (ICDERS), Naples, Italy, June 19-24 (2022).<br>
+                    - Tricard, N., & Zhao, X., <em>One dimensional modeling of spray detonations considering loss
+                        effects</em>,
+                    AIAA SCITECH 2022 Forum, San Diego, CA, USA, January 3-9 (2022).
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Conjugate Heat Transfer in
+                    Thermal Barrier Coatings</h3>
+                <p>
+                    <strong>Institution:</strong> UConn CTF Laboratory<br>
+                    <strong>Period:</strong> January 2021 – August 2021<br>
+                    <strong>Focus:</strong> High-Temperature Materials
+                </p>
+                <p>
+                    Built a 3-D model of semitransparent thermal barrier coatings (TBCs) accounting for conduction,
+                    convection,
+                    and internal and external radiation. Coupled Monte Carlo ray tracing code (C) with MATLAB Finite
+                    Volume
+                    Method (FVM) conduction and convection solver to capture conjugate heat transfer.
+                </p>
+                <p>
+                    Performed parametric studies varying TBC transparency, porosity, and three-dimensional geometric
+                    effects,
+                    demonstrating the importance of internal radiative transport in semitransparent ceramic coatings.
+                </p>
+                <p style="margin-top: 1rem;">
+                    <strong>Related publication:</strong><br>
+                    Tricard, N., & Zhao, X., <em>Modeling of conjugate heat transfer within thermal barrier coatings
+                        for combustion environments</em>, ICHMT International Symposium on Advances in Computational
+                    Heat
+                    Transfer, remote presentation, August 15-19 (2021). <strong>Nominated Best Paper Presentation
+                        Award</strong>.
+                </p>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Low-Pressure Turbine Modeling
+                </h3>
+                <p>
+                    <strong>Institution:</strong> Pratt & Whitney<br>
+                    <strong>Period:</strong> May 2019 – August 2019<br>
+                    <strong>Focus:</strong> Turbomachinery Design Tools
+                </p>
+                <p>
+                    Validated airfoil design software and initiated a 3D RANS CFD and 1D empirical tool validation by
+                    comparing
+                    computational and experimental low-pressure turbine data. Specified geometry and boundary
+                    conditions,
+                    constructed mesh, and executed time-accurate 3D multi-row CFD on multiple turbine configurations.
+                    Improved knowledge of tool capabilities by varying model fidelity and comparing against experimental
+                    measurements.
+                </p>
+
+                <div class="tag-row" style="margin-top: 1.5rem;">
+                    <span class="pill">Hypersonics</span>
+                    <span class="pill">Discontinuous Galerkin</span>
+                    <span class="pill">Gas Turbines</span>
+                    <span class="pill">Spray Detonation</span>
+                    <span class="pill">Conjugate Heat Transfer</span>
+                    <span class="pill">Thermal Barrier Coatings</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PUBLICATIONS MODAL -->
+    <div class="modal-overlay" id="pubs-modal" aria-hidden="true">
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="pubs-modal-title">
+            <div class="modal-header">
+                <div>
+                    <div class="modal-title" id="pubs-modal-title">
+                        Complete Publication List
+                    </div>
+                    <div class="modal-meta">
+                        Journal articles, conference proceedings, and presentations
+                    </div>
+                </div>
+                <button class="modal-close" aria-label="Close" onclick="closeModal('pubs-modal')">
+                    ×
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 0.75rem;">Journal Articles & Conference
+                    Proceedings</h3>
+                <ul class="pub-list">
+                    <li>
+                        <strong>Tricard, N.</strong>, Kim, S., and Deng, S.,
+                        <em>Inferring complex chemistry in thermal waves</em>,
+                        to be submitted to PNAS.
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, Ge, W., Prokopenko, A., Lebrun-Grandie, D. and Zhao, X.,
+                        <em>Accelerated approaches to thermal radiation modeling in participating media</em>,
+                        to be submitted to Journal of Computational Physics.
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, Ghosh, A., Dammati, S. S., Poludnenko, A. and Zhao, X.,
+                        <em>Parametric studies of ZND and reacting Navier-Stokes modeled spray-detonations</em>,
+                        to be submitted to Combustion and Flame.
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong> and Bojko, B.,
+                        <em>Solid-fuel reacting flow in a backward-facing step combustor at varying Reynolds numbers and
+                            inlet conditions</em>,
+                        Journal of Propulsion and Power, in press, 02 (2025) B40052.R2.
+                    </li>
+                    <li>
+                        Chen, Z., <strong>Tricard, N.</strong>, Deng, S.,
+                        <em>Hybrid physics-machine learning model for multispecies and temperature inference from FTIR
+                            spectra: Application to ammonia flames</em>,
+                        Proceedings of the Combustion Institute (PCI), 41 (2025) 105811.
+                        <a href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank" rel="noopener">DOI:
+                            10.1016/j.proci.2025.105811</a>
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, Johson, A., Meister, N., Hemchand, A., Zhao, X.,
+                        <em>Numerical Analysis of Radiative Heat Transfer in a Rich-burn, Quick-mix, Lean-burn
+                            Combustor</em>,
+                        ASME Turbo Expo, Memphis, TN, June 16–20 (2025).
+                        <a href="https://doi.org/10.1115/GT2025-151901" target="_blank" rel="noopener">DOI:
+                            10.1115/GT2025-151901</a>
+                    </li>
+                    <li>
+                        Wang, L., <strong>Tricard, N.</strong>, Chen, Z., Deng, S.,
+                        <em>Progress in Computational Methods and Mechanistic Insights on the Growth of Carbon
+                            Nanotubes</em>,
+                        Nanoscale, 17 (2025), 11812.
+                        <a href="https://doi.org/10.1039/D4NR05487C" target="_blank" rel="noopener">DOI:
+                            10.1039/D4NR05487C</a>
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, Fraga, G., & Zhao, X.,
+                        <em>Optimal parameters of Monte Carlo ray tracing solver with line-by-line spectral database for
+                            radiation modeling in fire</em>,
+                        Proceedings of the Combustion Institute (PCI), 40, 1–4, (2024) 105293.
+                        <a href="https://doi.org/10.1016/j.proci.2024.105293" target="_blank" rel="noopener">DOI:
+                            10.1016/j.proci.2024.105293</a>
+                    </li>
+                    <li>
+                        Colborn, J., O'Connor, J., <strong>Tricard, N.</strong>, Denman, J., Zhang, P., & Zhao, X.,
+                        <em>Interpreting heat flux measurements in a vitiated Backward-Facing step flow</em>,
+                        AIAA Journal/AIAA Journal on Disc, 1–13 (2024).
+                        <a href="https://doi.org/10.2514/1.j063694" target="_blank" rel="noopener">DOI:
+                            10.2514/1.j063694</a>
+                    </li>
+                </ul>
+
+                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Selected Conference
+                    Presentations</h3>
+                <ul class="pub-list">
+                    <li>
+                        Rodriguez, L. G., <strong>Tricard, N.</strong>, & Zhao, X.,
+                        <em>A Wavenumber Selection Algorithm for Reverse Monte Carlo Simulations</em>,
+                        RAD-25, Kuşadasi, Türkiye, June 15–20 (2025).
+                    </li>
+                    <li>
+                        Chen, Z., <strong>Tricard, N.</strong>, & Deng, S.,
+                        <em>A Machine-Learning Method for FTIR Diagnostics and Its Application in Ammonia
+                            Combustion</em>,
+                        U.S. National Combustion Meeting, Boston, MA, March 17–19 (2025).
+                    </li>
+                    <li>
+                        Bojko, B., Kessler, D., Johnson, R., Deboskey, R., <strong>Tricard, N.</strong>, Fisher, B.,
+                        Geipel, C., Epshteyn, A., & Finn, M.,
+                        <em>Ramjet-Based Propulsion Systems for High-Speed Weapons</em>,
+                        Naval Science & Technology Symposium, Arlington, VA, December 9–12 (2024).
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, Chen, Z., Wang, L, & Deng, S.,
+                        <em>Spatial Temperature and Composition Inference from FTIR in an FCCVD CNT Reactor</em>,
+                        Materials Research Society (MRS) Technical Meeting, Boston, MA, December 1–6 (2024).
+                    </li>
+                    <li>
+                        Wang, L., Chen, Z., & <strong>Tricard N.</strong>,
+                        <em>In-situ Measurements & Multi-parameter Inversion for Modeling Property-targeted CNT
+                            Production Through FCCVD</em>,
+                        Carbon Hub Technical Meeting, Houston, TX, USA, May 6-7 (2024).
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong> & Bojko, B.,
+                        <em>Effect of inlet boundary layer development and fluctuations on reacting flow in a
+                            backward-facing step combustor at varying Re numbers</em>,
+                        Eastern States Section of the Combustion Institute (ESSCI), Athens, GA, USA, March 10-13 (2024).
+                    </li>
+                    <li>
+                        Bojko, B., Patel, T., Kessler, D., DeBoskey, R., & <strong>Tricard, N.</strong>,
+                        <em>Investigating the Reacting Flow-Field within a Model Solid Fuel Ramjet Combustor using the
+                            Flamelet Progress Variable Approach</em>,
+                        AIAA SCITECH 2024 Forum, Orlando, FL, USA, January 8-12 (2024).
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, & Zhao, X.,
+                        <em>Acceleration of Monte Carlo Ray Tracing in Participating Media Using Graphics Processing
+                            Units and Bounding Volume Hierarchies</em>,
+                        poster presentation, International Symposium on Radiative Transfer (RAD-23), Thessaloniki,
+                        Greece, June 12-16 (2023).
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, Ghosh, A., Dammati, S. S., Poludnenko, A., & Zhao, X.,
+                        <em>Steady and transient one-dimensional simulations of multiphase dodecane/air
+                            detonations</em>,
+                        International Colloquium on the Dynamics of Explosions and Reactive Systems (ICDERS), Naples,
+                        Italy, June 19-24 (2022).
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, & Zhao, X.,
+                        <em>One dimensional modeling of spray detonations considering loss effects</em>,
+                        AIAA SCITECH 2022 Forum, San Diego, CA, USA, January 3-9 (2022).
+                    </li>
+                    <li>
+                        <strong>Tricard, N.</strong>, & Zhao, X.,
+                        <em>Modeling of conjugate heat transfer within thermal barrier coatings for combustion
+                            environments</em>,
+                        ICHMT International Symposium on Advances in Computational Heat Transfer, remote presentation,
+                        August 15-19 (2021).
+                        <strong>Nominated Best Paper Presentation Award</strong>.
+                    </li>
+                </ul>
+
+                <p class="muted" style="margin-top: 1.5rem;">
+                    For a complete list including technical reports and all presentations, please refer to the
+                    <a href="https://mitprod-my.sharepoint.com/:b:/g/personal/ntricard_mit_edu/IQBq2-StWSzZQ7nBPBN7Yr1oASq4JnTUb53tZE0S8RM2SwY?e=Z3B4iE"
+                        target="_blank" rel="noopener">full CV (PDF)</a>.
+                </p>
             </div>
         </div>
     </div>
