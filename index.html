@@ -107,9 +107,15 @@
 
         .hero {
             display: grid;
-            grid-template-columns: minmax(0, 2fr) minmax(0, 1.3fr);
+            grid-template-columns: minmax(0, 200px) minmax(0, 2fr) minmax(0, 1.3fr);
             gap: 1.5rem;
             align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .hero-right {
@@ -334,6 +340,9 @@
         <!-- HERO -->
         <section class="hero">
             <div>
+                <img src="profile.jpg" alt="Nicolas Tricard" class="hero-image">
+            </div>
+            <div>
                 <h1>Nicolas Tricard</h1>
                 <div class="subtitle">
                     PhD candidate – accelerated physics simulation & raytracing · MIT Mechanical Engineering
@@ -530,6 +539,10 @@
                             <figure style="margin:0;">
                                 <img src="multi_gpu_tracing.png" alt="Multi-GPU ray tracing visualization"
                                     style="width:100%; border-radius:0.75rem;">
+                                <figcaption
+                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                    Framework for multi-GPU ray tracing with NVLink and BVH traversal.
+                                </figcaption>
                             </figure>
                         </div>
                     </div>
@@ -620,6 +633,25 @@
                             <button class="more-info-btn" onclick="openModal('thermalfluids-modal')">
                                 More info
                             </button>
+                        </div>
+
+                        <div>
+                            <figure style="margin:0 0 1rem 0;">
+                                <img src="gas_turbine.png" alt="Gas turbine simulation in Airbus A320neo combustor"
+                                    style="width:100%; border-radius:0.75rem;">
+                                <figcaption
+                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                    Gas turbine simulation in Airbus A320neo combustor
+                                </figcaption>
+                            </figure>
+                            <figure style="margin:0;">
+                                <img src="detonation.gif" alt="2-D liquid-fueled detonation for downstream ROM"
+                                    style="width:100%; border-radius:0.75rem;">
+                                <figcaption
+                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
+                                    2-D liquid-fueled detonation for downstream ROM
+                                </figcaption>
+                            </figure>
                         </div>
                     </div>
                 </li>
