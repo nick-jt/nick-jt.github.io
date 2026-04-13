@@ -446,11 +446,10 @@
                 </div>
                 <p>
                     I build <strong>scientific machine learning frameworks</strong> that run at
-                    GPU/TPU scale, enabling accelerated simulation and gradient-based inference of physical fields. My
-                    work combines neural methods (diffusion models, attention,
-                    neural ODEs) with <strong>PDE-constrained optimization</strong> and
+                    GPU/TPU scale, enabling accelerated simulation and inverse modeling of physical fields. My
+                    work combines <strong>PDE-constrained optimization</strong> with <strong>neural methods</strong> and
                     high-performance computing (CUDA, MPI) to solve forward and inverse problems
-                    in fluid dynamics, combustion, and heat transfer.
+                    in physical systems such as fluid dynamics, combustion, and heat transfer.
                 </p>
                 <div class="tag-row">
                     <span class="pill">Scientific Machine Learning</span>
@@ -479,12 +478,12 @@
             <div class="two-col">
                 <div>
                     <ul>
-                        <li><strong>Neural methods for physical systems:</strong> neural ODEs, diffusion models,
-                            attention mechanisms</li>
                         <li><strong>Inverse problems & differentiable programming:</strong> differentiable rendering
                             (NeRF-style methods), PDE-constrained optimization</li>
                         <li><strong>High-performance scientific computing:</strong> GPU/TPU-accelerated simulation,
                             scalable differentiable programming</li>
+                        <li><strong>Neural methods for physical systems:</strong> neural ODEs, diffusion models,
+                            attention mechanisms</li>
                         <li><strong>Uncertainty quantification:</strong> Bayesian inference for physics-constrained
                             inverse problems</li>
                     </ul>
@@ -508,11 +507,11 @@
                 </div>
                 <div>
                     <dt>ML Frameworks</dt>
-                    <dd>JAX, PyTorch, TensorFlow/XLA</dd>
+                    <dd>JAX, Warp, PyTorch, TensorFlow</dd>
                 </div>
                 <div>
                     <dt>GPU / HPC</dt>
-                    <dd>CUDA, Kokkos, TPU/XLA, MPI, SLURM</dd>
+                    <dd>CUDA, Kokkos, TPU, MPI, SLURM</dd>
                 </div>
                 <div>
                     <dt>Simulation</dt>
@@ -620,7 +619,8 @@
                         <div>
                             <p>
                                 Developed a differentiable rendering (DR) framework for gradient-based reconstruction
-                                of 3D thermochemical fields from hyperspectral images. Formulated the inverse problem
+                                of 3D thermochemical fields from hyperspectral images following neural rendering
+                                frameworks (NeRF, Gaussian Splatting). Formulated the inverse problem
                                 using GPU-accelerated non-gray radiative transfer and integrated diffusion and
                                 attention-based priors for sparse-view reconstruction trained from fluid simulations.
                                 Demonstrated improved recovery of chemical species in hydrocarbon, ammonia, and material
