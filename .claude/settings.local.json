@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ffmpeg:*)",
+      "Bash(identify:*)",
+      "Bash(bash:*)",
+      "Bash(chmod:*)",
+      "Bash(python segment_spheroid.py:*)",
+      "Bash(ls:*)",
+      "Bash(python3:*)"
+    ]
+  }
+}
