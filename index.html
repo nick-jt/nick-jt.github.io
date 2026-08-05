@@ -1,1812 +1,752 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Nicolas Tricard – Differentiable Simulation & Scientific ML</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description"
-        content="Differentiable physics, inverse modeling, and GPU/TPU-scale scientific machine learning by Nicolas Tricard." />
-    <style>
-        :root {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            line-height: 1.6;
-            color: #111827;
-            background: #f9fafb;
-        }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nicolas Tricard | Computational Modeling and Simulation</title>
+  <meta name="description"
+    content="Nicolas Tricard develops inverse-modeling and GPU/TPU computing methods for radiative transport, fluid dynamics, combustion, and heat transfer.">
+  <meta property="og:title" content="Nicolas Tricard | Computational Modeling and Simulation">
+  <meta property="og:description" content="Inverse modeling and accelerator-scale computing for physical science.">
+  <meta property="og:image" content="https://nick-jt.github.io/Tomography.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nick-jt.github.io/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://nick-jt.github.io/">
+  <style>
+    :root {
+      --ink: #1d1d1d;
+      --muted: #555;
+      --line: #ddd;
+      --paper: #fff;
+      --card: #fff;
+      --blue: #24548a;
+      --teal: #24548a;
+      --dark: #f5f5f5;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      line-height: 1.55;
+    }
 
-        body {
-            margin: 0;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        a {
-            color: #2563eb;
-            text-decoration: none;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        a:hover {
-            text-decoration: underline;
-        }
+    body {
+      margin: 0;
+    }
 
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(249, 250, 251, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #e5e7eb;
-        }
+    a {
+      color: var(--blue);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
 
-        .nav-inner {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0.75rem 1.25rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    a:hover {
+      color: var(--teal);
+    }
 
-        .nav-name {
-            font-weight: 600;
-            letter-spacing: 0.03em;
-        }
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid #f7b955;
+      outline-offset: 3px;
+    }
 
-        .nav-links a {
-            margin-left: 1rem;
-            font-size: 0.9rem;
-        }
+    header {
+      border-bottom: 1px solid var(--line);
+    }
 
-        main {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 2.5rem 1.25rem 3rem;
-        }
+    .nav {
+      max-width: 960px;
+      min-height: 54px;
+      padding: 0 20px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
 
-        section {
-            margin-bottom: 2.5rem;
-        }
+    .brand {
+      color: var(--ink);
+      font-size: .9rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
 
-        h1 {
-            font-size: 2.1rem;
-            margin-bottom: 0.3rem;
-        }
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
 
-        h2 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 0.2rem;
-        }
+    .nav-links a {
+      color: #444;
+      font-size: .87rem;
+      text-decoration: none;
+    }
 
-        h3 {
-            font-size: 1rem;
-            margin: 0.4rem 0 0.1rem;
-        }
+    main {
+      max-width: 960px;
+      margin: auto;
+      padding: 0 20px 48px;
+    }
 
-        .subtitle {
-            color: #4b5563;
-            font-size: 0.98rem;
-            margin-bottom: 0.75rem;
-        }
+    section {
+      scroll-margin-top: 30px;
+      padding: 52px 0 0;
+    }
 
-        .muted {
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
+    .eyebrow,
+    .tag,
+    .metric-label,
+    .pub-status {
+      font-size: .72rem;
+      font-weight: 700;
+    }
 
-        .pill {
-            display: inline-block;
-            background: #e0f2fe;
-            color: #0369a1;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.6rem;
-            border-radius: 999px;
-            margin-right: 0.4rem;
-            margin-top: 0.2rem;
-        }
+    .eyebrow {
+      color: var(--muted);
+      margin: 0 0 7px;
+    }
 
-        .hero {
-            display: grid;
-            grid-template-columns: minmax(0, 200px) minmax(0, 2fr) minmax(0, 1.3fr);
-            gap: 1.5rem;
-            align-items: center;
-        }
+    .hero {
+      min-height: 0;
+      padding: 52px 0 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 175px;
+      align-items: start;
+      gap: 38px;
+    }
 
-        .hero-image {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-            object-position: 80% center;
-            border-radius: 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
+    h1 {
+      max-width: 730px;
+      margin: 0;
+      font-size: 2rem;
+      line-height: 1.1;
+      letter-spacing: -.03em;
+    }
 
-        .hero-right {
-            text-align: right;
-            font-size: 0.9rem;
-            color: #4b5563;
-        }
+    .lead {
+      max-width: 650px;
+      margin: 13px 0 12px;
+      color: #333;
+      font-size: 1rem;
+    }
 
-        .hero-links a {
-            display: inline-block;
-            margin-right: 0.8rem;
-            margin-top: 0.4rem;
-            font-size: 0.9rem;
-        }
+    .identity {
+      color: var(--muted);
+      font-size: .92rem;
+    }
 
-        .project-list,
-        .pub-list {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-        }
+    .actions,
+    .socials {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-        .project-list li,
-        .pub-list li {
-            margin-bottom: 1.25rem;
-        }
+    .actions {
+      margin: 18px 0 13px;
+    }
 
-        .project-meta {
-            font-size: 0.85rem;
-            color: #6b7280;
-        }
+    .button {
+      display: inline-flex;
+      min-height: 0;
+      align-items: center;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--blue);
+      font-size: .9rem;
+      font-weight: 650;
+      text-decoration: underline;
+    }
 
-        .tag-row {
-            margin-top: 0.2rem;
-        }
+    .button::after {
+      content: "→";
+      margin-left: 5px;
+    }
 
-        .two-col {
-            display: grid;
-            grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-            gap: 1.75rem;
-        }
+    .button:hover {
+      background: transparent;
+      color: #111;
+    }
 
-        .project-category {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 0.75rem;
-            color: #1e40af;
-            border-left: 3px solid #2563eb;
-            padding-left: 0.6rem;
-        }
+    .button.secondary {
+      background: transparent;
+      color: var(--blue);
+      border: 0;
+    }
 
-        .project-category:first-child {
-            margin-top: 0;
-        }
+    .socials a {
+      font-size: .88rem;
+    }
 
-        .compact-list {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-        }
+    .hero-figure {
+      margin: 0;
+    }
 
-        .compact-list li {
-            margin-bottom: 0.75rem;
-        }
+    .hero-figure img {
+      width: 175px;
+      height: auto;
+      display: block;
+      border-radius: 0;
+      box-shadow: none;
+    }
 
-        .timeline-entry {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
+    figcaption,
+    .hero-mark {
+      display: none;
+    }
 
-        .timeline-entry .dates {
-            white-space: nowrap;
-            font-size: 0.85rem;
-            color: #6b7280;
-        }
+    .proof {
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 14px 0;
+      display: flex;
+      gap: 12px 22px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
 
-        .edu-entry,
-        .exp-entry {
-            margin-bottom: 1rem;
-        }
+    .affiliations {
+      color: #444;
+      font-size: .87rem;
+      font-weight: 400;
+    }
 
-        .edu-entry h3,
-        .exp-entry h3 {
-            margin-bottom: 0.1rem;
-        }
+    .metric {
+      border-left: 1px solid var(--line);
+      padding-left: 15px;
+    }
 
-        .award-list {
-            list-style: none;
-            padding-left: 0;
-        }
+    .metric strong {
+      display: inline;
+      font-size: .92rem;
+      letter-spacing: 0;
+    }
 
-        .award-list li {
-            margin-bottom: 0.6rem;
-            padding-left: 1.2rem;
-            position: relative;
-        }
+    .metric-label {
+      color: var(--muted);
+      font-size: .72rem;
+    }
 
-        .award-list li::before {
-            content: "—";
-            position: absolute;
-            left: 0;
-            color: #9ca3af;
-        }
+    .section-head {
+      display: block;
+      margin-bottom: 22px;
+    }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.75rem 1.5rem;
-        }
+    h2 {
+      margin: 0 0 7px;
+      font-size: 1.45rem;
+      letter-spacing: -.025em;
+      line-height: 1.1;
+    }
 
-        .skills-grid dt {
-            font-weight: 600;
-            font-size: 0.88rem;
-            color: #374151;
-            margin-bottom: 0.15rem;
-        }
+    .section-intro {
+      color: var(--muted);
+      margin: 0;
+      max-width: 670px;
+      font-size: .93rem;
+    }
 
-        .skills-grid dd {
-            margin: 0 0 0.5rem;
-            font-size: 0.9rem;
-            color: #4b5563;
-        }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px 22px;
+    }
 
-        /* Short-project layout for LPT */
-        .project-flex {
-            display: grid;
-            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
-            gap: 1rem;
-            align-items: start;
-            margin-top: 0.4rem;
-        }
+    .project {
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+      background: var(--card);
+      border-radius: 0;
+    }
 
-        .thumb-placeholder {
-            border: 1px dashed #d1d5db;
-            border-radius: 0.75rem;
-            padding: 0.75rem;
-            font-size: 0.8rem;
-            color: #6b7280;
-            background: #f9fafb;
-            text-align: center;
-        }
+    .project img {
+      width: 100%;
+      height: 190px;
+      object-fit: contain;
+      background: #f5f5f5;
+      display: block;
+    }
 
-        .thumb-placeholder strong {
-            display: block;
-            margin-bottom: 0.25rem;
-            color: #374151;
-        }
+    .project-body {
+      padding: 14px 0 0;
+    }
 
-        .more-info-btn {
-            margin-top: 0.5rem;
-            display: inline-block;
-            border-radius: 999px;
-            border: 2px solid #2563eb;
-            padding: 0.45rem 1.1rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            background: #ffffff;
-            cursor: pointer;
-            color: #2563eb;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(37, 99, 235, 0.1);
-        }
+    h3 {
+      margin: 0 0 7px;
+      font-size: 1.08rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
 
-        .more-info-btn:hover {
-            background: #2563eb;
-            color: #ffffff;
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.2);
-            transform: translateY(-1px);
-        }
+    .project p {
+      margin: 0;
+      color: #444;
+      font-size: .9rem;
+    }
 
-        /* Long-version visualization grid (inside modal) */
-        .viz-grid {
-            display: grid;
-            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-            gap: 1.25rem;
-            margin-top: 0.5rem;
-            align-items: flex-start;
-        }
+    .tags {
+      display: none;
+    }
 
-        .viz-placeholder {
-            border: 1px dashed #d1d5db;
-            border-radius: 0.75rem;
-            padding: 0.75rem;
-            font-size: 0.8rem;
-            color: #6b7280;
-            background: #f9fafb;
-        }
+    .tag {
+      display: none;
+    }
 
-        .viz-placeholder strong {
-            display: block;
-            margin-bottom: 0.25rem;
-            color: #374151;
-        }
+    .project-links {
+      margin-top: 10px;
+      font-size: .84rem;
+      font-weight: 400;
+    }
 
-        /* Modal styles */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.4);
-            display: none;
-            /* toggled via JS */
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
+    .capabilities {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px 40px;
+    }
 
-        .modal-content {
-            background: #ffffff;
-            border-radius: 0.9rem;
-            max-width: 900px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
-            padding: 1.5rem 1.75rem 1.75rem;
-        }
+    .capability {
+      padding: 0;
+    }
 
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
+    .capability h3 {
+      font-size: 1rem;
+    }
 
-        .modal-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-        }
+    .capability p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .87rem;
+    }
 
-        .modal-close {
-            border: none;
-            background: transparent;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: #6b7280;
-        }
+    .tools {
+      margin: 7px 0 0;
+      color: #555;
+      font-size: .75rem;
+      line-height: 1.7;
+    }
 
-        .modal-close:hover {
-            color: #111827;
-        }
+    .pubs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
 
-        .modal-meta {
-            font-size: 0.85rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
+    .publication {
+      padding: 0;
+      background: var(--card);
+      border-left: 0;
+    }
 
-        footer {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #9ca3af;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e5e7eb;
-            margin-top: 2rem;
-        }
+    .publication h3 {
+      font-size: 1rem;
+    }
 
-        @media (max-width: 768px) {
+    .publication p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
 
-            .hero,
-            .two-col,
-            .viz-grid,
-            .project-flex {
-                grid-template-columns: minmax(0, 1fr);
-            }
+    .pub-status {
+      display: inline-block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: .69rem;
+    }
 
-            /* Keep profile photo modest width when hero stacks (avoid full-bleed square) */
-            .hero>div:first-child {
-                max-width: min(11rem, 42vw);
-                margin-inline: auto;
-            }
+    .timeline {
+      border-top: 1px solid var(--line);
+    }
 
-            .hero-right {
-                text-align: left;
-            }
+    .entry {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      padding: 19px 0;
+      border-bottom: 1px solid var(--line);
+      gap: 20px;
+    }
 
-            header {
-                position: static;
-            }
+    .dates {
+      color: var(--muted);
+      font: 700 .72rem ui-monospace, monospace;
+      padding-top: 4px;
+    }
 
-            .nav-inner {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.25rem;
-            }
+    .entry h3 {
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
 
-            .nav-links a {
-                margin-left: 0;
-                margin-right: 0.75rem;
-            }
-        }
-    </style>
+    .entry p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    .about-contact {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 72px;
+      padding-bottom: 44px;
+    }
+
+    .about-contact p {
+      color: #444;
+      max-width: 650px;
+    }
+
+    .contact-card {
+      align-self: start;
+      padding: 0;
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .contact-card h2 {
+      font-size: 1.45rem;
+    }
+
+    .contact-card p {
+      color: #444;
+    }
+
+    .contact-card a {
+      color: var(--blue);
+      font-weight: 400;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 24px 0;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    @media (max-width:800px) {
+      .nav {
+        padding: 12px 20px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
+
+      main {
+        padding: 0 20px 40px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        gap: 24px;
+        padding: 42px 0 30px;
+      }
+
+      .hero-figure {
+        max-width: 550px;
+      }
+
+      .proof {
+        gap: 13px 17px;
+      }
+
+      .metric:first-of-type {
+        border-left: 0;
+        padding-left: 0;
+      }
+
+      .section-head,
+      .about-contact {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .work-grid,
+      .pubs {
+        grid-template-columns: 1fr;
+      }
+
+      .capabilities {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .entry {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      section {
+        padding-top: 45px;
+      }
+    }
+
+    @media (max-width:430px) {
+
+      .capabilities,
+      .proof {
+        grid-template-columns: 1fr;
+      }
+
+      .metric {
+        border-left: 0;
+        padding-left: 0;
+        border-top: 1px solid var(--line);
+        padding-top: 12px;
+      }
+
+      h1 {
+        font-size: 2.75rem;
+      }
+    }
+  </style>
+  <script
+    type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nicolas Tricard","url":"https://nick-jt.github.io/","email":"mailto:ntricard@mit.edu","jobTitle":"Ph.D. Candidate in Mechanical Engineering","affiliation":{"@type":"Organization","name":"Massachusetts Institute of Technology"},"sameAs":["https://github.com/nick-jt","https://www.linkedin.com/in/nick-tricard"]}</script>
 </head>
 
 <body>
-    <header>
-        <div class="nav-inner">
-            <div class="nav-name">NICOLAS TRICARD</div>
-            <div class="nav-links">
-                <a href="#research">Research</a>
-                <a href="#skills">Skills</a>
-                <a href="#education">Education</a>
-                <a href="#experience">Experience</a>
-                <a href="#awards">Awards</a>
-                <a href="#projects">Projects</a>
-                <a href="#publications">Publications</a>
-                <a href="#contact">Contact</a>
-            </div>
-        </div>
-    </header>
-
-    <main>
-        <!-- HERO -->
-        <section class="hero">
-            <div>
-                <img src="profile.jpg" alt="Nicolas Tricard" class="hero-image">
-            </div>
-            <div>
-                <h1>Nicolas Tricard</h1>
-                <div class="subtitle">
-                    PhD candidate, GE Vernova Fellow – MIT Mechanical Engineering
-                </div>
-                <p>
-                    I build <strong>scientific machine learning frameworks</strong> that run at
-                    GPU/TPU scale, enabling accelerated simulation and inverse modeling of physical fields. My
-                    work combines <strong>PDE-constrained optimization</strong> with <strong>neural methods</strong> and
-                    high-performance computing (CUDA, MPI) to solve forward and inverse problems
-                    in physical systems such as fluid dynamics, combustion, and heat transfer.
-                </p>
-                <div class="tag-row">
-                    <span class="pill">Scientific Machine Learning</span>
-                    <span class="pill">Inverse Problems</span>
-                    <span class="pill">Neural ODEs</span>
-                    <span class="pill">CUDA / JAX / XLA</span>
-                    <span class="pill">GPU / TPU at Scale</span>
-                </div>
-            </div>
-            <div class="hero-right">
-                <div>Cambridge, MA · <a href="mailto:ntricard@mit.edu">ntricard@mit.edu</a></div>
-                <div class="hero-links">
-                    <a href="https://github.com/nick-jt" target="_blank" rel="noopener">GitHub</a>
-                    <a href="https://www.linkedin.com/in/nick-tricard" target="_blank" rel="noopener">LinkedIn</a>
-                    <!-- Update this when you host your PDF -->
-                    <a
-                        href="https://mitprod-my.sharepoint.com/:b:/g/personal/ntricard_mit_edu/IQBq2-StWSzZQ7nBPBN7Yr1oASq4JnTUb53tZE0S8RM2SwY?e=Z3B4iE">CV
-                        (PDF)</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- RESEARCH -->
-        <section id="research">
-            <h2>Research Interests</h2>
-            <div class="two-col">
-                <div>
-                    <ul>
-                        <li><strong>High-performance scientific computing:</strong> GPU/TPU-accelerated simulation,
-                            reacting flows, finite volume methods</li>
-                        <li><strong>Neural methods for physical systems:</strong> neural ODEs, neural operators,
-                            generative models</li>
-                        <li><strong>Radiative heat transfer:</strong> Monte-Carlo ray tracing,
-                            non-gray radiation, spectroscopy</li>
-                        <li><strong>Inverse problems & differentiable programming:</strong> differentiable rendering
-                            (e.g., neural radiance fields), PDE-constrained optimization, Bayesian inference</li>
-                    </ul>
-                </div>
-                <div class="muted">
-                    I’m particularly interested in research at the interface of
-                    <strong>flow-based simulation and machine learning</strong>.
-                </div>
-            </div>
-        </section>
-
-        <!-- SKILLS -->
-        <section id="skills">
-            <h2>Technical Skills</h2>
-            <dl class="skills-grid">
-                <div>
-                    <dt>Languages</dt>
-                    <dd>Python, C/C++, Julia, MATLAB</dd>
-                </div>
-                <div>
-                    <dt>ML Frameworks</dt>
-                    <dd>JAX, Warp, PyTorch, TensorFlow</dd>
-                </div>
-                <div>
-                    <dt>GPU / HPC</dt>
-                    <dd>CUDA, Kokkos, TPU, MPI, SLURM</dd>
-                </div>
-                <div>
-                    <dt>Simulation</dt>
-                    <dd>OpenFOAM, LAMMPS, Cantera</dd>
-                </div>
-                <div>
-                    <dt>Methods</dt>
-                    <dd>Differentiable rendering, neural ODEs, diffusion models, adjoint methods, Bayesian inference
-                    </dd>
-                </div>
-                <div>
-                    <dt>Tools</dt>
-                    <dd>Git, Docker, Linux, LaTeX</dd>
-                </div>
-            </dl>
-        </section>
-
-        <!-- EDUCATION -->
-        <section id="education">
-            <h2>Education</h2>
-            <div class="edu-entry">
-                <div class="timeline-entry">
-                    <h3>Massachusetts Institute of Technology</h3>
-                    <span class="dates">September 2023 – May 2027</span>
-                </div>
-                <div class="muted">Ph.D. Mechanical Engineering (GE Vernova Fellow '26, Bailey Fellow '24)</div>
-            </div>
-            <div class="edu-entry">
-                <div class="timeline-entry">
-                    <h3>University of Connecticut</h3>
-                    <span class="dates">August 2017 – May 2022</span>
-                </div>
-                <div class="muted">M.S. Mechanical Engineering (Research Assistant)<br>
-                    B.S. Mechanical Engineering, Minor in Computer Science (Merit Scholar)</div>
-            </div>
-        </section>
-
-        <!-- EXPERIENCE / RESEARCH POSITIONS -->
-        <section id="experience">
-            <h2>Experience</h2>
-            <div class="exp-entry">
-                <div class="timeline-entry">
-                    <h3>Simulation Researcher – Google Research</h3>
-                    <span class="dates">August 2024 – December 2024</span>
-                </div>
-                <div class="muted">TPU-accelerated Lagrangian particle tracking in fluid flows (Simulation research
-                    group), Mountain View, CA</div>
-            </div>
-            <div class="exp-entry">
-                <div class="timeline-entry">
-                    <h3>Graduate Researcher – Massachusetts Institute of Technology</h3>
-                    <span class="dates">September 2023 – May 2027</span>
-                </div>
-                <div class="muted">Differentiable physics and data-driven inverse modeling in reacting flows (Advisor:
-                    Sili Deng), Cambridge, MA</div>
-            </div>
-            <div class="exp-entry">
-                <div class="timeline-entry">
-                    <h3>Part-time Researcher – U.S. Naval Research Laboratory</h3>
-                    <span class="dates">May 2022 – May 2024</span>
-                </div>
-                <div class="muted">CUDA-accelerated discontinuous Galerkin (DG FEM) reactive flow modeling (Mentor:
-                    Brian Bojko), Washington, DC</div>
-            </div>
-            <div class="exp-entry">
-                <div class="timeline-entry">
-                    <h3>Graduate Research Assistant – University of Connecticut</h3>
-                    <span class="dates">June 2020 – August 2023</span>
-                </div>
-                <div class="muted">Monte Carlo ray tracing on distributed and GPU-accelerated systems (Advisor: Xinyu
-                    Zhao), Storrs, CT</div>
-            </div>
-        </section>
-
-        <!-- AWARDS -->
-        <section id="awards">
-            <h2>Awards & Fellowships</h2>
-            <ul class="award-list">
-                <li><strong>GE Vernova Fellowship</strong> – Merit-based, full funding, only 8 MIT fellowships awarded
-                    annually <span class="muted">(2025–2026)</span></li>
-                <li><strong>MathWorks Fellowship</strong> – Merit-based offer, full funding, MIT <span
-                        class="muted">(2025–2026)</span></li>
-                <li><strong>Doug and Sarah Bailey Award</strong> – Merit-based fellowship, MIT <span
-                        class="muted">(2023–2024)</span></li>
-                <li><strong>Nominated Best Paper Presentation Award</strong> – ICHMT Conference <span
-                        class="muted">(2021)</span></li>
-                <li><strong>Cum Laude, Dean's List, Honors Scholar, Academic Excellence Scholarship</strong> – UConn
-                    <span class="muted">(2017–2021)</span>
-                </li>
-            </ul>
-        </section>
-
-        <!-- PROJECTS -->
-        <section id="projects">
-            <h2>Selected Projects</h2>
-            <!-- ═══ CATEGORY 1: Differentiable Physics & Inverse Modeling ═══ -->
-            <div class="project-category">Differentiable Physics & Inverse Modeling</div>
-
-            <ul class="project-list">
-                <li>
-                    <h3>Differentiable Rendering for Hyperspectral Flame Diagnostics – MIT</h3>
-                    <div class="project-meta">April 2025 – Present · CUDA / JAX / Julia · Inverse Rendering</div>
-
-                    <div class="project-flex">
-                        <div>
-                            <p>
-                                Developed a differentiable rendering (DR) framework for gradient-based reconstruction
-                                of 3D thermochemical fields from hyperspectral images following neural rendering
-                                frameworks (NeRF, Gaussian Splatting). Formulated the inverse problem
-                                using GPU-accelerated non-gray radiative transfer and integrated diffusion and
-                                attention-based priors for sparse-view reconstruction trained from fluid simulations.
-                                Demonstrated improved recovery of chemical species in hydrocarbon, ammonia, and material
-                                synthesis reactors.
-                            </p>
-                            <div class="tag-row">
-                                <span class="pill">Differentiable Rendering</span>
-                                <span class="pill">CUDA</span>
-                                <span class="pill">JAX</span>
-                                <span class="pill">Inverse Problems</span>
-                            </div>
-                            <p style="margin-top: 0.75rem; font-size: 0.9rem;">
-                                <strong>Related:</strong>
-                                <a href="https://arxiv.org/abs/2603.27832" target="_blank" rel="noopener">arXiv
-                                    preprint (2026)</a> ·
-                                <a href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank" rel="noopener">PCI
-                                    2025</a>
-                            </p>
-                            <button class="more-info-btn" onclick="openModal('flame-modal')">
-                                More info
-                            </button>
-                        </div>
-
-                        <div>
-                            <figure style="margin:0;">
-                                <img src="Tomography.png" alt="Hyperspectral flame tomography reconstruction"
-                                    style="width:100%; display:block;">
-                                <figcaption
-                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                    Hyperspectral flame tomography (3-D field reconstruction)
-                                </figcaption>
-                            </figure>
-                            <figure style="margin:1rem 0 0 0;">
-                                <img src="MckennaInference.png"
-                                    alt="Temperature and species inference from laser absorption in a McKenna burner"
-                                    style="width:100%; display:block;">
-                                <figcaption
-                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                    Differentiable spectroscopy / laser absorption inference (McKenna burner example)
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <h3>PDE-Constrained Inverse Modeling of Energetic Materials – MIT</h3>
-                    <div class="project-meta">August 2023 – Present · Julia / PyTorch · Bayesian Inference</div>
-
-                    <div class="project-flex">
-                        <div>
-                            <p>
-                                Developed an inverse modeling framework to infer material properties and chemical
-                                kinetics from experimental burn data. Applied Bayesian inference and
-                                reaction-diffusion modeling to enforce physical consistency, with differentiable
-                                solvers and adjoint sensitivity analysis for scalable parameter estimation.
-                            </p>
-                            <div class="tag-row">
-                                <span class="pill">Differentiable Physics</span>
-                                <span class="pill">Adjoint Methods</span>
-                                <span class="pill">Bayesian Inference</span>
-                            </div>
-                            <button class="more-info-btn" onclick="openModal('diffphys-modal')">
-                                More info
-                            </button>
-                        </div>
-
-                        <div>
-                            <figure style="margin:0;">
-                                <img src="rxn_diff.png" alt="Reaction-diffusion inference using differentiable physics"
-                                    style="width:100%; display:block;">
-                                <figcaption
-                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                    Inverse modeling in thermal wave systems
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <h3>Inverse Modeling of CNT Growth via Neural and Physics-Based Methods – MIT</h3>
-                    <div class="project-meta">December 2023 – Present · Neural ODEs / LAMMPS · FTIR Diagnostics</div>
-                    <p>
-                        Inferred CNT reactor chemistry from radiation diagnostics for <em>in situ</em> process
-                        understanding. Combined ML force fields with active learning to accelerate molecular dynamics
-                        simulations of carbon nanotube growth.
-                    </p>
-                    <div class="tag-row">
-                        <span class="pill">Neural ODEs</span>
-                        <span class="pill">FTIR Diagnostics</span>
-                        <span class="pill">Carbon Nanotubes</span>
-                        <span class="pill">Active Learning</span>
-                    </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                        <strong>Related:</strong>
-                        <a href="https://doi.org/10.1039/D4NR05487C" target="_blank" rel="noopener">Wang et al.,
-                            Nanoscale, 2025</a>
-                    </p>
-                </li>
-            </ul>
-
-            <!-- ═══ CATEGORY 2: Machine Learning for Physical Systems ═══ -->
-            <div class="project-category">Machine Learning for Physical Systems</div>
-
-            <ul class="project-list">
-                <li>
-                    <h3>Digital Twin Models of Fluid Dynamic Systems – MIT</h3>
-                    <div class="project-meta">August 2025 – Present · Attention / LES / OpenFOAM</div>
-                    <p>
-                        Contributed to an attention-based framework for reconstruction and dynamic forecasting
-                        from sparse measurements. The model fuses a global latent state with local sensor
-                        readouts for rapid, uncertainty-aware prediction. Constructed ground-truth data of large eddy
-                        simulation (LES)
-                        of reacting flow over a backward-facing step using OpenFOAM with detailed chemistry.
-                    </p>
-                    <div class="tag-row">
-                        <span class="pill">Attention</span>
-                        <span class="pill">Digital Twins</span>
-                        <span class="pill">LES</span>
-                        <span class="pill">Uncertainty Quantification</span>
-                    </div>
-                    <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                        <strong>Related:</strong>
-                        <a href="https://arxiv.org/abs/2603.26023" target="_blank" rel="noopener">Wang et al., arXiv
-                            preprint (2026)</a>
-                    </p>
-                </li>
-
-                <li>
-                    <h3>Neural ODEs for Stiff Chemical Kinetics – MIT</h3>
-                    <div class="project-meta">August 2023 – May 2024 · PyTorch · Adjoint Sensitivity</div>
-                    <p>
-                        Developed neural ODE frameworks to learn reaction rate dynamics in large, stiff chemical
-                        systems (methane, JP-10, and hydrocarbon mechanisms with hundreds of species). Integrated
-                        adjoint-based sensitivity analysis for efficient training and inference.
-                    </p>
-                    <div class="tag-row">
-                        <span class="pill">Neural ODEs</span>
-                        <span class="pill">Chemical Kinetics</span>
-                        <span class="pill">Stiff Systems</span>
-                    </div>
-                    <button class="more-info-btn" onclick="openModal('diffphys-modal')">
-                        More info
-                    </button>
-                </li>
-            </ul>
-
-            <!-- ═══ CATEGORY 3: High-Performance Scientific Computing & Systems ═══ -->
-            <div class="project-category">High-Performance Scientific Computing & Systems</div>
-
-            <ul class="project-list">
-                <li>
-                    <h3>Lagrangian Particle Tracking on TPUs – Google Research</h3>
-                    <div class="project-meta">September 2024 – December 2024 · TPU / XLA · Swirl-LM</div>
-
-                    <div class="project-flex">
-                        <div>
-                            <p>
-                                Introduced a multi-TPU particle tracking solver for differentiable wildfire CFD
-                                in <strong>Swirl-LM</strong>. Achieved near-optimal TPU performance by directly
-                                analyzing HLO IR, compiler passes, and SPMD sharding. Identified and reported a
-                                TensorFlow / XLA compiler bug, contributing to the broader ML ecosystem.
-                            </p>
-                            <div class="tag-row">
-                                <span class="pill">TPU</span>
-                                <span class="pill">XLA / HLO</span>
-                                <span class="pill">SPMD</span>
-                                <span class="pill">Multiphase Flow</span>
-                                <span class="pill">Wildfire Spotting</span>
-                            </div>
-                            <p style="margin-top: 0.75rem; font-size: 0.9rem;">
-                                <strong>External links:</strong>
-                                <a href="https://docs.google.com/presentation/d/1TyUc8KmSehkCKj33XfmS4Y0wHVA6zFrM4yvr3eGUTqU/edit?usp=sharing"
-                                    target="_blank" rel="noopener">Full Presentation</a> ·
-                                <a href="https://github.com/google-research/swirl-lm/tree/main/swirl_lm/physics/lpt"
-                                    target="_blank" rel="noopener">LPT Module GitHub</a>
-                            </p>
-                            <button class="more-info-btn" onclick="openModal('lpt-modal')">
-                                More info
-                            </button>
-                        </div>
-
-                        <figure style="margin:0;">
-                            <img src="lpt_jet_crossflow_particles_corecolors.gif"
-                                alt="256 TPU cores running Lagrangian Particle Tracking"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                256-TPU simulation of particles in cross-flow jet run on Google Cloud.
-                            </figcaption>
-                        </figure>
-                    </div>
-                </li>
-
-                <li>
-                    <h3>CUDA Monte Carlo Ray Tracing for Emitting Media – ORNL / UConn</h3>
-                    <div class="project-meta">May 2020 – March 2024 · CUDA / Kokkos · OpenFOAM</div>
-
-                    <div class="project-flex">
-                        <div>
-                            <p>
-                                Led development of a CUDA-based 3D Monte Carlo radiative transfer solver integrated
-                                with OpenFOAM. Designed a BVH-based parallelization strategy enabling >400x speedup
-                                on Top100 supercomputer GPU clusters. Applied to coupled turbulent CFD simulations
-                                in gas turbine systems and high-enthalpy propulsion devices.
-                            </p>
-                            <div class="tag-row">
-                                <span class="pill">CUDA</span>
-                                <span class="pill">BVH</span>
-                                <span class="pill">Monte Carlo</span>
-                                <span class="pill">OpenFOAM</span>
-                                <span class="pill">Multi-GPU</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <figure style="margin:0;">
-                                <img src="multi_gpu_tracing.png" alt="Multi-GPU ray tracing visualization"
-                                    style="width:100%; border-radius:0.75rem;">
-                                <figcaption
-                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                    Framework for multi-GPU ray tracing with NVLink and BVH traversal.
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-
-            <!-- ═══ CATEGORY 4: Additional Research ═══ -->
-            <div class="project-category">Additional Research</div>
-
-            <ul class="project-list">
-                <li>
-                    <h3>Thermal-Fluids Modeling & Reacting Flow Simulation – Multi-Institutional</h3>
-                    <div class="project-meta">2019– · CFD · Heat Transfer · Multiphase Flow · Propulsion</div>
-
-                    <div class="project-flex">
-                        <div>
-                            <p>
-                                Comprehensive thermal-fluids modeling across combustion and propulsion systems:
-                                hypersonic propulsion, gas turbine combustors, spray detonations, and thermal barrier
-                                coatings. Work spans GPU-accelerated CFD (Discontinuous Galerkin and finite volume),
-                                conjugate heat transfer with participating media radiation, and reduced-order modeling
-                                of multiphase reacting flows.
-                            </p>
-                            <p>
-                                Collaborations include the U.S. Naval Research Laboratory (hypersonic ramjet
-                                propulsion), Pratt &amp; Whitney and Penn State (gas turbine combustor analysis), and
-                                fundamental studies of spray detonation dynamics—time-accurate reacting Navier–Stokes
-                                simulations, radiation–convection coupling, and validation against experiments.
-                            </p>
-                            <div class="tag-row">
-                                <span class="pill">CFD</span>
-                                <span class="pill">Reacting Flow</span>
-                                <span class="pill">Heat Transfer</span>
-                                <span class="pill">Multiphase Flow</span>
-                            </div>
-                            <button class="more-info-btn" onclick="openModal('thermalfluids-modal')">
-                                More info
-                            </button>
-                        </div>
-
-                        <div>
-                            <figure style="margin:0 0 1rem 0;">
-                                <img src="gas_turbine.png" alt="Gas turbine simulation in Airbus A320neo combustor"
-                                    style="width:100%; display:block;">
-                                <figcaption
-                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                    Gas turbine simulation in Airbus A320neo combustor
-                                </figcaption>
-                            </figure>
-                            <figure style="margin:0;">
-                                <img src="backstep_flame.png" alt="2-D backstep combustion"
-                                    style="width:100%; display:block;">
-                                <figcaption
-                                    style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                    2-D backstep combustion process
-                                </figcaption>
-                            </figure>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-
-            <ul class="compact-list">
-                <li>
-                    <h3>GPU-Accelerated Reacting-Flow Simulation</h3>
-                    <div class="project-meta">NRL, 2022–2024</div>
-                    <p>
-                        Contributed to a CUDA-accelerated DG Navier–Stokes solver for compressible, reacting CFD;
-                        contributed boundary conditions and reduced-order models (ROMs).
-                    </p>
-                </li>
-                <li>
-                    <h3>Reduced-Order Reacting-Flow Models</h3>
-                    <div class="project-meta">UConn, 2020–2023</div>
-                    <p>
-                        Developed 1-D multiphase detonation ROMs achieving 10<sup>6</sup>x speedup vs direct numerical
-                        simulation while matching key physical trends.
-                    </p>
-                </li>
-            </ul>
-        </section>
-
-        <!-- PUBLICATIONS -->
-        <section id="publications">
-            <h2>Selected Publications</h2>
-            <ul class="pub-list">
-                <li>
-                    <strong>Tricard, N.</strong>, Chen, Z., Deng, S., <em>3-D representations for hyperspectral flame
-                        tomography</em>, arXiv preprint arXiv:2603.27832 (2026).
-                    <a href="https://arxiv.org/abs/2603.27832" target="_blank" rel="noopener">link</a>
-                </li>
-                <li>
-                    Wang, L., Chen, J., <strong>Tricard, N.</strong>, Chen, Z., Deng, S.,
-                    <em>GLU: Global-local-uncertainty fusion for scalable spatiotemporal reconstruction and
-                        forecasting</em>, arXiv preprint arXiv:2603.26023 (2026).
-                    <a href="https://arxiv.org/abs/2603.26023" target="_blank" rel="noopener">link</a>
-                </li>
-                <li>
-                    <strong>Tricard, N.</strong>, Bojko, B., <em>Inlet conditions and fuel effects on structures in
-                        backward-facing step combustor</em>,
-                    Journal of Propulsion and Power, in press (2025).
-                    <a href="https://doi.org/10.2514/1.B40052" target="_blank" rel="noopener">link</a>
-                </li>
-                <li>
-                    Chen, Z., <strong>Tricard, N.</strong>, Deng, S., <em>Hybrid physics-ML for multispecies and
-                        temperature inference from FTIR spectra</em>,
-                    Proceedings of the Combustion Institute, 2025.
-                    <a href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank" rel="noopener">link</a>
-                </li>
-                <li>
-                    Wang, L., <strong>Tricard, N.</strong>, Chen, Z., Deng, S., <em>Computational methods for CNT
-                        growth modeling</em>, Nanoscale, 17 (2025), 11812.
-                    <a href="https://doi.org/10.1039/D4NR05487C" target="_blank" rel="noopener">link</a>
-                </li>
-                <li>
-                    <strong>Tricard, N.</strong>, Fraga, G., Zhao, X., <em>Optimal parameters of Monte Carlo ray tracing
-                        solver with line-by-line spectral database</em>,
-                    Proceedings of the Combustion Institute, 2024.
-                    <a href="https://doi.org/10.1016/j.proci.2024.105293" target="_blank" rel="noopener">link</a>
-                </li>
-                <li>
-                    <strong>Tricard, N.</strong>, Kim, S., Deng, S., <em>Inferring complex chemistry in thermal
-                        waves</em>, to be submitted to PNAS.
-                </li>
-            </ul>
-            <button class="more-info-btn" onclick="openModal('pubs-modal')" style="margin-top: 0.5rem;">
-                More Publications
-            </button>
-        </section>
-
-        <!-- CONTACT -->
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>
-                For research collaborations, internship opportunities, or questions about my work, feel free to reach
-                out:
-            </p>
-            <p>
-                Email: <a href="mailto:ntricard@mit.edu">ntricard@mit.edu</a><br />
-                GitHub: <a href="https://github.com/nick-jt" target="_blank" rel="noopener">github.com/nick-jt</a><br />
-                LinkedIn: <a href="https://www.linkedin.com/in/nick-tricard" target="_blank"
-                    rel="noopener">linkedin.com/in/nick-tricard</a><br />
-            </p>
-        </section>
-
-        <footer>
-            © <span id="year"></span> Nicolas Tricard
-        </footer>
-    </main>
-
-    <!-- LPT MODAL (LONG VERSION) -->
-    <div class="modal-overlay" id="lpt-modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="lpt-modal-title">
-            <div class="modal-header">
-                <div>
-                    <div class="modal-title" id="lpt-modal-title">
-                        Lagrangian Particle Tracking on TPUs – Google Research
-                    </div>
-                    <div class="modal-meta">
-                        2024 · Wildfire CFD · TPU / XLA · Swirl-LM
-                    </div>
-                </div>
-                <button class="modal-close" aria-label="Close" onclick="closeModal('lpt-modal')">
-                    ×
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <div class="viz-grid">
-                    <!-- Detailed text -->
-                    <div>
-                        <p>
-                            During my internship at Google Research (Athena / Swirl-LM), I implemented a
-                            <strong>lagrangian particle tracking (LPT) module</strong> for wildfire simulations on
-                            <strong>Google Cloud TPUs</strong>. The target application is modeling wildfire
-                            <em>spotting</em>—the transport of burning embers that can ignite new fires far ahead of
-                            the main front.
-                        </p>
-                        <p>
-                            The work extends Swirl-LM from single-phase CFD to a fully multiphase framework, tracking
-                            hundreds of thousands of particles in a jet-in-cross-flow configuration on up to
-                            <strong>256 TPU cores</strong>. Particles evolve according to drag-based equations of
-                            motion with inertia, gravity, and mass loss, and are tightly coupled to the underlying
-                            flow field through explicit time integration.
-                        </p>
-
-                        <p><strong>External links</strong></p>
-
-                        <ul>
-                            <li>
-                                <a href="https://docs.google.com/presentation/d/1TyUc8KmSehkCKj33XfmS4Y0wHVA6zFrM4yvr3eGUTqU/edit?usp=sharing"
-                                    target="_blank" rel="noopener">Full Presentation</a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/google-research/swirl-lm/tree/main/swirl_lm/physics/lpt"
-                                    target="_blank" rel="noopener">LPT Module GitHub</a>
-                            </li>
-                        </ul>
-
-
-                        <p><strong>Technical contributions:</strong></p>
-                        <ul>
-                            <li>
-                                Designed fixed-size <code>lpt_field_ints</code> and <code>lpt_field_floats</code>
-                                tensors
-                                with an <code>n_max</code> cap per core to satisfy
-                                <strong>static-shape XLA</strong> constraints while supporting highly dynamic particle
-                                counts.
-                            </li>
-                            <li>
-                                Implemented a <strong>field-exchange</strong> parallelization strategy where
-                                <em>cores share the global particle workload</em>, decoupled from local mesh ownership.
-                                Fluid properties at particle locations are communicated each time step using
-                                <strong>PAIRWISE</strong> and <strong>ONE_SHUFFLE</strong> inter-TPU communication
-                                modes.
-                            </li>
-                            <li>
-                                Added support for <strong>periodic boundary conditions</strong>, gravity, and a
-                                <strong>stretched grid</strong> representation, including efficient mapping between
-                                physical and mapped coordinates.
-                            </li>
-                            <li>
-                                Performed <strong>strong and weak scaling studies</strong> up to 256 cores, analyzing
-                                communication patterns and demonstrating that the LPT module can scale alongside
-                                Swirl-LM’s
-                                flow solver.
-                            </li>
-                            <li>
-                                Identified and reported a <strong>UI / XLA bug</strong> in the TPU stack, contributing
-                                benchmarks for dynamically varying workloads under XLA compilation.
-                            </li>
-                        </ul>
-
-                        <div class="tag-row">
-                            <span class="pill">TPU</span>
-                            <span class="pill">XLA / HLO</span>
-                            <span class="pill">SPMD</span>
-                            <span class="pill">Multiphase Flow</span>
-                            <span class="pill">Wildfire Spotting</span>
-                        </div>
-                    </div>
-
-                    <!-- Visualization placeholders -->
-                    <div>
-                        <figure style="margin:0;">
-                            <img src="lpt_jet_crossflow_particles_2.gif"
-                                alt="256 TPU cores running Lagrangian Particle Tracking"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Multiphase jet-in-cross-flow side view.
-                            </figcaption>
-                        </figure>
-
-                        <figure style="margin:0;">
-                            <img src="lpt_top_view.gif" alt="256 TPU cores running Lagrangian Particle Tracking"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Aft view of Lagrangian Particle Tracking.
-                            </figcaption>
-                        </figure>
-
-                        <figure style="margin:0;">
-                            <img src="lpt_pairwise_communication.gif" alt="Pairwise TPU communication strategy"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Pairwise communication strategy.
-                            </figcaption>
-                        </figure>
-
-                        <figure style="margin:0;">
-                            <img src="lpt_shuffle_communication.gif" alt="One-shuffle TPU communication strategy"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                One-shuffle communication strategy.
-                            </figcaption>
-                        </figure>
-
-                    </div>
-                </div>
-            </div>
-        </div>
+  <header>
+    <nav class="nav" aria-label="Primary navigation"><a class="brand" href="#top">NICOLAS TRICARD</a>
+      <div class="nav-links"><a href="#work">Work</a><a href="#publications">Publications</a><a
+          href="#about">About</a><a href="#contact">Contact</a></div>
+    </nav>
+  </header>
+  <main id="top">
+    <section class="hero" aria-labelledby="intro-title">
+      <div>
+        <h1 id="intro-title">Nicolas Tricard</h1>
+        <p class="identity">Ph.D. Candidate, Mechanical Engineering · Massachusetts Institute of Technology</p>
+        <p class="lead">I develop computational methods for inverse problems, radiative transport, and thermal-fluid
+          simulation. My work combines physical models, experimental data, and high-performance computing across GPU and
+          TPU systems.</p>
+        <p class="identity">Former Google Research simulation researcher · GE Vernova Fellow (2025–2026)</p>
+        <div class="actions"><a class="button" href="#work">Selected work</a><a class="button secondary"
+            href="#publications">Publications</a></div>
+        <div class="socials"><a href="https://github.com/nick-jt" target="_blank" rel="noopener">GitHub ↗</a><a
+            href="https://www.linkedin.com/in/nick-tricard" target="_blank" rel="noopener">LinkedIn ↗</a><a
+            href="mailto:ntricard@mit.edu">Email</a></div>
+      </div>
+      <figure class="hero-figure"><img src="profile.jpg" alt="Nicolas Tricard"></figure>
+    </section>
+    <div class="proof" aria-label="Selected affiliations and evidence">
+      <div class="affiliations">MIT &nbsp;·&nbsp; Google Research &nbsp;·&nbsp; U.S. Naval Research Laboratory
+        &nbsp;·&nbsp; UConn</div>
+      <div class="metric"><span class="metric-label">Custom simulation software (reaching 256 TPU cores / 2000
+          GPUs)</span></div>
+      <div class="metric"><span class="metric-label">Experimental inverse modeling</span></div>
     </div>
-
-    <!-- DIFFERENTIABLE FLAME DIAGNOSTICS MODAL (LONG VERSION) -->
-    <div class="modal-overlay" id="flame-modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="flame-modal-title">
-            <div class="modal-header">
-                <div>
-                    <div class="modal-title" id="flame-modal-title">
-                        Differentiable Flame Diagnostics (Example Project) – McKenna Burner
-                    </div>
-                    <div class="modal-meta">
-                        Turning spectra into temperature/species maps · Calibration-aware fitting · Uncertainty
-                        estimates
-                    </div>
-                </div>
-                <button class="modal-close" aria-label="Close" onclick="closeModal('flame-modal')">
-                    ×
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <!-- Section 1: 3-D Reconstruction -->
-                <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 0.5rem;">Ongoing Work: 3-D
-                    Reconstruction from External Images</h3>
-                <p>
-                    I'm currently working on extending these ideas to 3-D reconstruction of temperature and
-                    species fields from external camera images. This work connects the latest optimization-based
-                    approaches from the computer vision community—specifically <strong>Neural Radiance Fields
-                        (NeRF)</strong> and <strong>Gaussian Splatting</strong>—with physics-based volume
-                    rendering for combustion diagnostics.
-                </p>
-                <p>
-                    The key challenge is adapting these CV techniques to handle participating media (where light
-                    gets absorbed and scattered as it passes through the flame) rather than just surface
-                    rendering. I'm implementing this entirely in differentiable languages including CUDA (manual
-                    adjoints), Warp, and JAX
-                    differentiable operators, which allows for optimal GPU acceleration and fine-grained control
-                    over the rendering pipeline. This approach enables efficient gradient-based optimization of
-                    3-D thermochemical fields directly from multi-view camera observations.
-                </p>
-                <p>
-                    The core approach addresses the ill-posed nature of the inverse tomography problem by
-                    combining models with strong inductive bias (NeRF/Gaussian Splatting) with data-enhancing
-                    regularization strategies. This includes both <strong>physics-informed regularizers</strong>
-                    that enforce consistency with radiative transfer equations and thermodynamic constraints, as
-                    well
-                    as <strong>data-driven regularizers</strong> learned from training data to capture spatial
-                    smoothness and structural priors. By jointly optimizing the 3-D field representation with
-                    these
-                    complementary regularization terms, the method reduces solution ambiguity and enables robust
-                    reconstruction from sparse, noisy multi-view observations.
-                </p>
-
-                <!-- Section 2: Hybrid Physics-ML for FTIR -->
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Hybrid Physics-ML for
-                    FTIR Spectra (1-D Reconstruction)</h3>
-                <div class="viz-grid">
-                    <div>
-                        <p>
-                            In earlier work, I contributed to a hybrid physics-machine learning framework for inferring
-                            temperature, path length, and species mole fractions from FTIR emission spectra of ammonia
-                            flames. The model is trained on high-fidelity synthetic spectra generated via line-by-line
-                            radiative transfer using HITEMP/HITRAN spectroscopic databases.
-                        </p>
-                        <p>
-                            To address challenges of spectral overlap, minor-species detectability, and measurement
-                            noise, the architecture incorporates physics-based regularization and a self-supervised
-                            spectrum reconstruction module. The reconstruction module enforces consistency with the
-                            radiative transfer equation, serving as an auxiliary task that improves the learned spectral
-                            representation. This hybrid approach enables robust multi-target inference across species
-                            spanning several orders of magnitude in concentration, outperforming standard partial least
-                            squares regression while remaining compact and interpretable.
-                        </p>
-                        <p>
-                            <a href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank"
-                                rel="noopener">Publication: Chen, Z., Tricard, N., Deng, S., <em>Hybrid physics-machine
-                                    learning model for multispecies and temperature inference from FTIR spectra:
-                                    Application to ammonia flames</em>, Proceedings of the Combustion Institute,
-                                2025.</a>
-                        </p>
-                    </div>
-                    <div>
-                        <figure style="margin:0;">
-                            <img src="FTIR_algorithm_placeholder.png"
-                                alt="Hybrid physics-ML algorithm for FTIR inference"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Hybrid physics-ML algorithm for 1-D FTIR reconstruction
-                            </figcaption>
-                        </figure>
-                    </div>
-                </div>
-
-                <!-- Section 3: Differentiable Spectroscopy for TDLAS -->
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">Differentiable
-                    Spectroscopy for TDLAS (McKenna Burner Example)</h3>
-                <div class="viz-grid">
-                    <div>
-                        <p>
-                            Another example applies differentiable physics to tunable diode laser absorption
-                            spectroscopy
-                            (TDLAS) for reconstructing temperature and NO fields in an axisymmetric McKenna burner. By
-                            implementing the Beer-Lambert law in <strong>JAX</strong>, the method computes exact
-                            gradients
-                            of predicted spectra with respect to temperature, species concentrations, and calibration
-                            parameters, enabling joint optimization of flame state and nuisance effects like laser
-                            drift.
-                        </p>
-                        <p>
-                            For uncertainty quantification, I use <strong>Stein Variational Gradient Descent
-                                (SVGD)</strong> to approximate the full posterior distribution over possible flame
-                            states. SVGD maintains a set of candidate solutions that evolve to match the data while
-                            respecting the physics, providing uncertainty bands that naturally widen in regions with
-                            sparse constraints. This approach enables robust reconstruction from as little as a single
-                            noisy line-of-sight measurement, with quantified uncertainty that reflects data limitations.
-                        </p>
-                        <p class="muted">
-                            Acknowledgments: ExxonMobil Corporation and GE Vernova.
-                        </p>
-                    </div>
-                    <div>
-                        <figure style="margin:0 0 1rem 0;">
-                            <img src="axisymmetric.png" alt="Axisymmetric flame reconstruction domain"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Axisymmetric flame reconstruction domain
-                            </figcaption>
-                        </figure>
-                        <figure style="margin:0;">
-                            <img src="MckennaInference.png"
-                                alt="Temperature and pollutant NO inference from a single line-of-sight laser in a real ammonia experiment"
-                                style="width:100%; border-radius:0.75rem;">
-                            <figcaption style="font-size:0.87em; color:#6b7280; text-align:center; margin-top:0.3em;">
-                                Temperature and pollutant NO inference from a single line-of-sight laser in a real
-                                ammonia experiment
-                            </figcaption>
-                        </figure>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- DIFFERENTIABLE PHYSICS MODAL -->
-    <div class="modal-overlay" id="diffphys-modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="diffphys-modal-title">
-            <div class="modal-header">
-                <div>
-                    <div class="modal-title" id="diffphys-modal-title">
-                        Differentiable Physics & Inverse Modeling – MIT
-                    </div>
-                    <div class="modal-meta">
-                        2023– · PyTorch / JAX / Julia · Neural ODEs · PDE-Constrained Optimization
-                    </div>
-                </div>
-                <button class="modal-close" aria-label="Close" onclick="closeModal('diffphys-modal')">
-                    ×
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>
-                    Developing general frameworks for inverse problems in reacting systems using differentiable physics,
-                    neural ODEs, and PDE-constrained optimization. The approach combines automatic differentiation with
-                    physics-based models to infer material properties, chemical kinetics, and transport coefficients
-                    from
-                    experimental observations.
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Reaction-Diffusion Inference
-                    in Energetic Materials</h3>
-                <p>
-                    <strong>Application:</strong> Energetic Materials Characterization<br>
-                    <strong>Period:</strong> August 2023 – present<br>
-                    <strong>Collaborators:</strong> DENG Lab (MIT)
-                </p>
-                <p>
-                    Developing methods for simultaneous reaction and transport inference in thermal wave
-                    reaction-diffusion
-                    equations using differentiable physics and neural ODEs. The approach combines PDE-constrained
-                    optimization
-                    with automatic differentiation to learn material properties and chemical kinetics from observations
-                    of temperature. This has strong applications in areas from weather modeling to propulsion systems
-                    and wildfires.
-                </p>
-                <p>
-                    Introducing multi-step, complex chemistry inference through symbolic machine learning to enhance
-                    inverse
-                    modeling capabilities of existing inference tools. Implementation uses automatic differentiation and
-                    adjoint
-                    sensitivity analysis in the Julia programming language, enabling joint estimation of chemical
-                    reaction rates
-                    and transport properties (diffusivity, thermal conductivity) from observed temperature and species
-                    evolution
-                    profiles.
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Neural ODEs for Chemical
-                    Kinetics</h3>
-                <p>
-                    <strong>Application:</strong> Complex Reaction Mechanism Inference<br>
-                    <strong>Period:</strong> August 2023 – May 2024<br>
-                    <strong>Collaborators:</strong> DENG Lab (MIT)
-                </p>
-                <p>
-                    Applied neural ordinary differential equations (ODEs) in the form of the chemical reaction neural
-                    network (CRNN) to learn kinetic rates of stiff chemical
-                    reactions,
-                    scaling to complex methane, JP-10, and hydrocarbon chemical mechanisms with hundreds of species and
-                    thousands
-                    of reactions. By embedding physics-based reaction networks within a differentiable framework, the
-                    method learns
-                    rate constants and reaction pathways consistent with both observed data and thermodynamic
-                    constraints.
-                </p>
-                <p>
-                    The approach uses forward and adjoint sensitivity analysis to compute gradients efficiently,
-                    enabling
-                    gradient-based optimization of high-dimensional parameter spaces. This includes handling stiff
-                    chemical
-                    systems where reaction timescales span many orders of magnitude, requiring specialized ODE solvers
-                    and
-                    careful numerical treatment.
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Neural-ODE Analysis of Carbon
-                    Nanotube Synthesis</h3>
-                <p>
-                    <strong>Application:</strong> CNT Reactor Chemistry & FTIR Diagnostics<br>
-                    <strong>Period:</strong> December 2023 – present<br>
-                    <strong>Collaborators:</strong> DENG Lab (MIT)
-                </p>
-                <p>
-                    Inferred CNT reactor chemistry from radiation diagnostics to improve <em>in-situ</em> understanding
-                    of
-                    chemical vapor deposition reactors and the growth of carbon nanotubes. Applied CRNN to directly
-                    extract CNT growth rates from FTIR spectra, enabling more efficient exploration of CNT growth
-                    mechanisms and reaction pathways.
-                </p>
-                <p>
-                    Developed spatial temperature and composition inference from FTIR spectra for real-time monitoring
-                    of
-                    floating catalyst chemical vapor deposition (FCCVD) processes. This work combines spectroscopic
-                    measurements
-                    with inverse modeling to reconstruct reactor state from emission/absorption spectra, providing
-                    critical
-                    feedback for process control and optimization.
-                </p>
-                <p style="margin-top: 1rem;">
-                    <strong>Related publication:</strong>
-                    <a href="https://doi.org/10.1039/D4NR05487C" target="_blank" rel="noopener">
-                        Wang, L., Tricard, N., Chen, Z., Deng, S., <em>Progress in Computational Methods and Mechanistic
-                            Insights on the Growth of Carbon Nanotubes</em>, Nanoscale, 17 (2025), 11812.
-                    </a>
-                </p>
-
-                <div class="tag-row" style="margin-top: 1.5rem;">
-                    <span class="pill">Neural ODEs</span>
-                    <span class="pill">Differentiable Physics</span>
-                    <span class="pill">Chemical Kinetics</span>
-                    <span class="pill">Energetic Materials</span>
-                    <span class="pill">FTIR Diagnostics</span>
-                    <span class="pill">Carbon Nanotubes</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- THERMAL-FLUIDS MODAL -->
-    <div class="modal-overlay" id="thermalfluids-modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="thermalfluids-modal-title">
-            <div class="modal-header">
-                <div>
-                    <div class="modal-title" id="thermalfluids-modal-title">
-                        Thermal-Fluids Modeling & Reacting Flow Simulation
-                    </div>
-                    <div class="modal-meta">
-                        2019– · CFD · Heat Transfer · Multiphase Flow · Propulsion
-                    </div>
-                </div>
-                <button class="modal-close" aria-label="Close" onclick="closeModal('thermalfluids-modal')">
-                    ×
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <p>
-                    Conducting comprehensive thermal-fluids modeling across diverse combustion and propulsion systems,
-                    spanning GPU-accelerated CFD, conjugate heat transfer with participating media radiation, and
-                    reduced-order modeling of multi-phase reacting flows.
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Solid Fuel Ramjet (SFRJ)
-                    Modeling</h3>
-                <p>
-                    <strong>Institution:</strong> U.S. Naval Research Laboratory<br>
-                    <strong>Period:</strong> May 2022 – March 2024<br>
-                    <strong>Focus:</strong> Hypersonic Propulsion
-                </p>
-                <p>
-                    Constructed mesh and executed time-accurate simulations of simplified hypersonic missile engines
-                    using
-                    GPU-accelerated Discontinuous-Galerkin (DG) reacting Navier-Stokes CFD. Contributed boundary
-                    conditions
-                    and numerics to C++-based military laboratory CFD code, enabling high-fidelity modeling of solid
-                    fuel
-                    ramjet combustors at varying Reynolds numbers and inlet conditions.
-                </p>
-                <p>
-                    The work investigated the effect of inlet boundary layer development and fluctuations on reacting
-                    flow
-                    in a backward-facing step combustor, comparing various turbulence models and inlet conditions.
-                    Results
-                    inform design of next-generation high-speed propulsion systems.
-                </p>
-                <p style="margin-top: 1rem;">
-                    <strong>Related publication:</strong>
-                    Tricard, N. and Bojko, B., <em>Solid-fuel reacting flow in a backward-facing step combustor at
-                        varying
-                        Reynolds numbers and inlet conditions</em>, Journal of Propulsion and Power, in press (2025).
-                    <a href="https://doi.org/10.2514/1.B40052" target="_blank" rel="noopener">DOI: 10.2514/1.B40052</a>
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Gas Turbine Combustor
-                    Radiation Modeling</h3>
-                <p>
-                    <strong>Institution:</strong> UConn CTF Laboratory, Pratt & Whitney<br>
-                    <strong>Period:</strong> August 2020 – May 2022<br>
-                    <strong>Focus:</strong> Commercial Aviation Engines
-                </p>
-                <p>
-                    Collaborated with the United Technologies Research Center to model radiative heat transfer in the
-                    Pratt & Whitney Geared Turbo-Fan combustor for the Airbus A320neo using GPU-accelerated Monte Carlo
-                    ray tracing. Analyzed the influence of non-gray radiation within the fluid, on the walls, and in the
-                    turbine section of the engine.
-                </p>
-                <p>
-                    Additional work with Penn State experimentalists investigated relative effects of radiation and
-                    convection
-                    in a gas-turbine combustor, applying GPU-accelerated radiation models to validate and interpret
-                    experimental
-                    observations in a Rich-burn, Quick-mix, Lean-burn (RQL) configuration.
-                </p>
-                <p style="margin-top: 1rem;">
-                    <strong>Related publications:</strong><br>
-                    - Tricard, N., Johson, A., Meister, N., Hemchand, A., Zhao, X., <em>Numerical Analysis of Radiative
-                        Heat
-                        Transfer in a Rich-burn, Quick-mix, Lean-burn Combustor</em>, ASME Turbo Expo, Memphis, TN
-                    (2025).<br>
-                    - Colborn, J., O'Connor, J., Tricard, N., et al., <em>Interpreting heat flux measurements in a
-                        vitiated
-                        Backward-Facing step flow</em>, AIAA Journal (2024).
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Spray Detonation Modeling
-                </h3>
-                <p>
-                    <strong>Institution:</strong> UConn CTF Laboratory<br>
-                    <strong>Period:</strong> December 2019 – June 2022<br>
-                    <strong>Focus:</strong> Multiphase Combustion Dynamics
-                </p>
-                <p>
-                    Developed reduced-order 1-D detonation models in Python by reformulating multi-phase, compressible
-                    Euler
-                    equations with shockwaves and complex chemistry. Investigated heterogeneous effects on steady-state
-                    spray
-                    detonation structure, comparing ZND-type analytical solutions with transient Direct Numerical
-                    Simulation (DNS).
-                </p>
-                <p>
-                    The reduced-order models achieved excellent agreement with full 1-D and 2-D Navier-Stokes DNS
-                    solutions
-                    while reducing computational runtime by 1,000,000× compared to transient simulations, enabling rapid
-                    parametric studies of fuel droplet size, equivalence ratio, and pressure effects.
-                </p>
-                <p style="margin-top: 1rem;">
-                    <strong>Related publications:</strong><br>
-                    - Tricard, N., Ghosh, A., Dammati, S. S., Poludnenko, A., & Zhao, X., <em>Steady and transient
-                        one-dimensional simulations of multiphase dodecane/air detonations</em>, International
-                    Colloquium on
-                    the Dynamics of Explosions and Reactive Systems (ICDERS), Naples, Italy, June 19-24 (2022).<br>
-                    - Tricard, N., & Zhao, X., <em>One dimensional modeling of spray detonations considering loss
-                        effects</em>,
-                    AIAA SCITECH 2022 Forum, San Diego, CA, USA, January 3-9 (2022).
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Conjugate Heat Transfer in
-                    Thermal Barrier Coatings</h3>
-                <p>
-                    <strong>Institution:</strong> UConn CTF Laboratory<br>
-                    <strong>Period:</strong> January 2021 – August 2021<br>
-                    <strong>Focus:</strong> High-Temperature Materials
-                </p>
-                <p>
-                    Built a 3-D model of semitransparent thermal barrier coatings (TBCs) accounting for conduction,
-                    convection,
-                    and internal and external radiation. Coupled Monte Carlo ray tracing code (C) with MATLAB Finite
-                    Volume
-                    Method (FVM) conduction and convection solver to capture conjugate heat transfer.
-                </p>
-                <p>
-                    Performed parametric studies varying TBC transparency, porosity, and three-dimensional geometric
-                    effects,
-                    demonstrating the importance of internal radiative transport in semitransparent ceramic coatings.
-                </p>
-                <p style="margin-top: 1rem;">
-                    <strong>Related publication:</strong><br>
-                    Tricard, N., & Zhao, X., <em>Modeling of conjugate heat transfer within thermal barrier coatings
-                        for combustion environments</em>, ICHMT International Symposium on Advances in Computational
-                    Heat
-                    Transfer, remote presentation, August 15-19 (2021). <strong>Nominated Best Paper Presentation
-                        Award</strong>.
-                </p>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Low-Pressure Turbine Modeling
-                </h3>
-                <p>
-                    <strong>Institution:</strong> Pratt & Whitney<br>
-                    <strong>Period:</strong> May 2019 – August 2019<br>
-                    <strong>Focus:</strong> Turbomachinery Design Tools
-                </p>
-                <p>
-                    Validated airfoil design software and initiated a 3D RANS CFD and 1D empirical tool validation by
-                    comparing
-                    computational and experimental low-pressure turbine data. Specified geometry and boundary
-                    conditions,
-                    constructed mesh, and executed time-accurate 3D multi-row CFD on multiple turbine configurations.
-                    Improved knowledge of tool capabilities by varying model fidelity and comparing against experimental
-                    measurements.
-                </p>
-
-                <div class="tag-row" style="margin-top: 1.5rem;">
-                    <span class="pill">Hypersonics</span>
-                    <span class="pill">Discontinuous Galerkin</span>
-                    <span class="pill">Gas Turbines</span>
-                    <span class="pill">Spray Detonation</span>
-                    <span class="pill">Conjugate Heat Transfer</span>
-                    <span class="pill">Thermal Barrier Coatings</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- PUBLICATIONS MODAL -->
-    <div class="modal-overlay" id="pubs-modal" aria-hidden="true">
-        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="pubs-modal-title">
-            <div class="modal-header">
-                <div>
-                    <div class="modal-title" id="pubs-modal-title">
-                        Complete Publication List
-                    </div>
-                    <div class="modal-meta">
-                        Journal articles, conference proceedings, and presentations
-                    </div>
-                </div>
-                <button class="modal-close" aria-label="Close" onclick="closeModal('pubs-modal')">
-                    ×
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <h3 style="font-size: 1.1rem; margin-top: 0; margin-bottom: 0.75rem;">Journal Articles & Conference
-                    Proceedings</h3>
-                <ul class="pub-list">
-                    <li>
-                        <strong>Tricard, N.</strong>, Chen, Z., and Deng, S.,
-                        <em>3-D representations for hyperspectral flame tomography</em>,
-                        arXiv preprint arXiv:2603.27832 (2026).
-                        <a href="https://arxiv.org/abs/2603.27832" target="_blank" rel="noopener">link</a>
-                    </li>
-                    <li>
-                        Wang, L., Chen, J., <strong>Tricard, N.</strong>, Chen, Z., and Deng, S.,
-                        <em>GLU: Global-local-uncertainty fusion for scalable spatiotemporal reconstruction and
-                            forecasting</em>,
-                        arXiv preprint arXiv:2603.26023 (2026).
-                        <a href="https://arxiv.org/abs/2603.26023" target="_blank" rel="noopener">link</a>
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Kim, S., and Deng, S.,
-                        <em>Inferring complex chemistry in thermal waves</em>,
-                        to be submitted to PNAS.
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Ge, W., Prokopenko, A., Lebrun-Grandié, D. and Zhao, X.,
-                        <em>Accelerated approaches to thermal radiation modeling in participating media</em>,
-                        to be submitted to Journal of Computational Physics.
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Ghosh, A., Dammati, S. S., Poludnenko, A. and Zhao, X.,
-                        <em>Parametric studies of ZND and reacting Navier-Stokes modeled spray-detonations</em>,
-                        to be submitted to Combustion and Flame.
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong> and Bojko, B.,
-                        <em>Solid-fuel reacting flow in a backward-facing step combustor at varying Reynolds numbers and
-                            inlet conditions</em>,
-                        Journal of Propulsion and Power, in press, 02 (2025) B40052.R2.
-                        <a href="https://doi.org/10.2514/1.B40052" target="_blank" rel="noopener">DOI:
-                            10.2514/1.B40052</a>
-                    </li>
-                    <li>
-                        Chen, Z., <strong>Tricard, N.</strong>, Deng, S.,
-                        <em>Hybrid physics-machine learning model for multispecies and temperature inference from FTIR
-                            spectra: Application to ammonia flames</em>,
-                        Proceedings of the Combustion Institute (PCI), 41 (2025) 105811.
-                        <a href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank" rel="noopener">DOI:
-                            10.1016/j.proci.2025.105811</a>
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Johson, A., Meister, N., Hemchand, A., Zhao, X.,
-                        <em>Numerical Analysis of Radiative Heat Transfer in a Rich-burn, Quick-mix, Lean-burn
-                            Combustor</em>,
-                        ASME Turbo Expo, Memphis, TN, June 16–20 (2025).
-                        <a href="https://doi.org/10.1115/GT2025-151901" target="_blank" rel="noopener">DOI:
-                            10.1115/GT2025-151901</a>
-                    </li>
-                    <li>
-                        Wang, L., <strong>Tricard, N.</strong>, Chen, Z., Deng, S.,
-                        <em>Progress in Computational Methods and Mechanistic Insights on the Growth of Carbon
-                            Nanotubes</em>,
-                        Nanoscale, 17 (2025), 11812.
-                        <a href="https://doi.org/10.1039/D4NR05487C" target="_blank" rel="noopener">DOI:
-                            10.1039/D4NR05487C</a>
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Fraga, G., & Zhao, X.,
-                        <em>Optimal parameters of Monte Carlo ray tracing solver with line-by-line spectral database for
-                            radiation modeling in fire</em>,
-                        Proceedings of the Combustion Institute (PCI), 40, 1–4, (2024) 105293.
-                        <a href="https://doi.org/10.1016/j.proci.2024.105293" target="_blank" rel="noopener">DOI:
-                            10.1016/j.proci.2024.105293</a>
-                    </li>
-                    <li>
-                        Colborn, J., O'Connor, J., <strong>Tricard, N.</strong>, Denman, J., Zhang, P., & Zhao, X.,
-                        <em>Interpreting heat flux measurements in a vitiated Backward-Facing step flow</em>,
-                        AIAA Journal/AIAA Journal on Disc, 1–13 (2024).
-                        <a href="https://doi.org/10.2514/1.j063694" target="_blank" rel="noopener">DOI:
-                            10.2514/1.j063694</a>
-                    </li>
-                </ul>
-
-                <h3 style="font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem;">Selected Conference
-                    Presentations</h3>
-                <ul class="pub-list">
-                    <li>
-                        <strong>Tricard, N.</strong> & Deng, S.,
-                        <em>Multi-GPU Radiative Transport in Participating Media with Kokkos</em>,
-                        Invited talk – Kokkos user group meeting, High Performance Software Foundation (HPSF)
-                        Convention, Chicago, IL, March 19 (2026).
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Chen, Z., & Deng, S.,
-                        <em>3-D Representations for Hyperspectral Flame Tomography</em>,
-                        Eastern States Section of the Combustion Institute (ESSCI), Raleigh, NC, March 16–18 (2026).
-                    </li>
-                    <li>
-                        Wang, L., Chen, J., <strong>Tricard, N.</strong>, & Deng, S.,
-                        <em>GLU: Global-Local-Uncertainty Fusion for Sparse Multi-Field Reconstruction of Turbulent
-                            Combustion Systems</em>,
-                        ESSCI, Raleigh, NC, March 16–18 (2026).
-                    </li>
-                    <li>
-                        Rodriguez, L. G., <strong>Tricard, N.</strong>, & Zhao, X.,
-                        <em>A Wavenumber Selection Algorithm for Reverse Monte Carlo Simulations</em>,
-                        RAD-25, Kuşadasi, Türkiye, June 15–20 (2025).
-                    </li>
-                    <li>
-                        Chen, Z., <strong>Tricard, N.</strong>, & Deng, S.,
-                        <em>A Machine-Learning Method for FTIR Diagnostics and Its Application in Ammonia
-                            Combustion</em>,
-                        U.S. National Combustion Meeting, Boston, MA, March 17–19 (2025).
-                    </li>
-                    <li>
-                        Bojko, B., Kessler, D., Johnson, R., Deboskey, R., <strong>Tricard, N.</strong>, Fisher, B.,
-                        Geipel, C., Epshteyn, A., & Finn, M.,
-                        <em>Ramjet-Based Propulsion Systems for High-Speed Weapons</em>,
-                        Naval Science & Technology Symposium, Arlington, VA, December 9–12 (2024).
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Chen, Z., Wang, L, & Deng, S.,
-                        <em>Spatial Temperature and Composition Inference from FTIR in an FCCVD CNT Reactor</em>,
-                        Materials Research Society (MRS) Technical Meeting, Boston, MA, December 1–6 (2024).
-                    </li>
-                    <li>
-                        Wang, L., Chen, Z., & <strong>Tricard N.</strong>,
-                        <em>In-situ Measurements & Multi-parameter Inversion for Modeling Property-targeted CNT
-                            Production Through FCCVD</em>,
-                        Carbon Hub Technical Meeting, Houston, TX, USA, May 6-7 (2024).
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong> & Bojko, B.,
-                        <em>Effect of inlet boundary layer development and fluctuations on reacting flow in a
-                            backward-facing step combustor at varying Re numbers</em>,
-                        Eastern States Section of the Combustion Institute (ESSCI), Athens, GA, USA, March 10-13 (2024).
-                    </li>
-                    <li>
-                        Bojko, B., Patel, T., Kessler, D., DeBoskey, R., & <strong>Tricard, N.</strong>,
-                        <em>Investigating the Reacting Flow-Field within a Model Solid Fuel Ramjet Combustor using the
-                            Flamelet Progress Variable Approach</em>,
-                        AIAA SCITECH 2024 Forum, Orlando, FL, USA, January 8-12 (2024).
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, & Zhao, X.,
-                        <em>Acceleration of Monte Carlo Ray Tracing in Participating Media Using Graphics Processing
-                            Units and Bounding Volume Hierarchies</em>,
-                        poster presentation, International Symposium on Radiative Transfer (RAD-23), Thessaloniki,
-                        Greece, June 12-16 (2023).
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, Ghosh, A., Dammati, S. S., Poludnenko, A., & Zhao, X.,
-                        <em>Steady and transient one-dimensional simulations of multiphase dodecane/air
-                            detonations</em>,
-                        International Colloquium on the Dynamics of Explosions and Reactive Systems (ICDERS), Naples,
-                        Italy, June 19-24 (2022).
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, & Zhao, X.,
-                        <em>One dimensional modeling of spray detonations considering loss effects</em>,
-                        AIAA SCITECH 2022 Forum, San Diego, CA, USA, January 3-9 (2022).
-                    </li>
-                    <li>
-                        <strong>Tricard, N.</strong>, & Zhao, X.,
-                        <em>Modeling of conjugate heat transfer within thermal barrier coatings for combustion
-                            environments</em>,
-                        ICHMT International Symposium on Advances in Computational Heat Transfer, remote presentation,
-                        August 15-19 (2021).
-                        <strong>Nominated Best Paper Presentation Award</strong>.
-                    </li>
-                </ul>
-
-                <p class="muted" style="margin-top: 1.5rem;">
-                    For a complete list including technical reports and all presentations, please refer to the
-                    <a href="https://mitprod-my.sharepoint.com/:b:/g/personal/ntricard_mit_edu/IQBq2-StWSzZQ7nBPBN7Yr1oASq4JnTUb53tZE0S8RM2SwY?e=Z3B4iE"
-                        target="_blank" rel="noopener">full CV (PDF)</a>.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
-
-        function isAnyModalOpen() {
-            return Array.from(document.querySelectorAll('.modal-overlay')).some((m) => m.style.display === 'flex');
-        }
-
-        function openModal(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden';
-            modal.setAttribute('aria-hidden', 'false');
-        }
-
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.style.display = 'none';
-            if (!isAnyModalOpen()) {
-                document.body.style.overflow = '';
-            }
-            modal.setAttribute('aria-hidden', 'true');
-        }
-
-        // Optional: close modal when clicking outside content
-        document.addEventListener('click', function (event) {
-            const target = event.target;
-            if (!(target instanceof HTMLElement)) return;
-            if (target.classList.contains('modal-overlay')) {
-                if (target.id) closeModal(target.id);
-            }
-        });
-
-        // Optional: close on ESC
-        document.addEventListener('keydown', function (event) {
-            if (event.key === 'Escape') {
-                document.querySelectorAll('.modal-overlay').forEach((modal) => {
-                    if (modal instanceof HTMLElement && modal.style.display === 'flex' && modal.id) {
-                        closeModal(modal.id);
-                    }
-                });
-            }
-        });
-    </script>
+    <section id="work">
+      <div class="section-head">
+        <h2>Selected work</h2>
+        <p class="section-intro">I formulate difficult physical problems, build differentiable or accelerated methods to
+          solve them, and validate the resulting systems on experimental and engineering applications.</p>
+      </div>
+      <div class="work-grid">
+        <article class="project"><img src="differentiable_imaging.png" loading="lazy"
+            alt="Inferred temperature and species profiles in an ammonia and methane McKenna burner">
+          <div class="project-body">
+            <h3>Differentiable imaging and spectroscopy</h3>
+            <p>Built radiative-transfer and spectroscopy models that jointly infer temperature, composition, calibration
+              parameters, and uncertainty from indirect optical measurements—including real ammonia/methane flame
+              experiments.</p>
+            <div class="tags"><span class="tag">JAX</span><span class="tag">CUDA</span><span class="tag">Bayesian
+                inference</span><span class="tag">Radiative transfer</span></div>
+            <div class="project-links"><a href="#publications"><strong>Tricard, N.</strong> et al., <em>Proceedings of
+                  the Combustion Institute</em>, in press (2026) ↓</a></div>
+          </div>
+        </article>
+        <article class="project"><img src="rxn_diff.png" loading="lazy"
+            alt="Reaction-diffusion thermal wave data used for inverse modeling">
+          <div class="project-body">
+            <h3>Hidden chemistry and transport inference</h3>
+            <p>Developed PDE-constrained inference methods to recover reaction pathways, kinetics, and transport
+              parameters from sparse thermal-wave observations, with uncertainty and identifiability built into the
+              formulation.</p>
+            <div class="tags"><span class="tag">Differentiable PDEs</span><span class="tag">Adjoints</span><span
+                class="tag">Model discovery</span></div>
+          </div>
+        </article>
+        <article class="project"><img src="lpt_jet_crossflow_particles_corecolors.gif" loading="lazy"
+            alt="Distributed Lagrangian particle simulation across TPU cores">
+          <div class="project-body">
+            <h3>Distributed particle simulation on TPUs</h3>
+            <p>Built a distributed Lagrangian particle-tracking system for wildfire CFD in Google’s Swirl-LM, scaling
+              dynamic particle workloads across 256 TPU cores under XLA static-shape constraints.</p>
+            <div class="tags"><span class="tag">TPU</span><span class="tag">XLA / HLO</span><span
+                class="tag">SPMD</span><span class="tag">Swirl-LM</span></div>
+            <div class="project-links"><a
+                href="https://github.com/google-research/swirl-lm/tree/main/swirl_lm/physics/lpt" target="_blank"
+                rel="noopener">Open-source implementation ↗</a></div>
+          </div>
+        </article>
+        <article class="project"><img src="multi_gpu_tracing.png" loading="lazy"
+            alt="Multi-GPU ray-tracing system for participating-media radiation">
+          <div class="project-body">
+            <h3>Distributed GPU radiative transport</h3>
+            <p>Led development of manually constructed C++ radiative-transport codes using Kokkos, MPI decomposition,
+              and BVH traversal to scale non-gray Monte Carlo ray tracing across roughly 2,000 GPUs while mitigating
+              communication bottlenecks.</p>
+            <div class="tags"><span class="tag">C++</span><span class="tag">Kokkos</span><span
+                class="tag">MPI</span><span class="tag">Monte Carlo</span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section id="capabilities">
+      <div class="section-head">
+        <h2>Core capabilities</h2>
+        <p class="section-intro">Methods and software architecture are inseparable in my work: the model must be both
+          scientifically useful and practical at accelerator scale.</p>
+      </div>
+      <div class="capabilities">
+        <article class="capability">
+          <h3>Differentiable scientific computing</h3>
+          <p>Differentiable ODE, PDE, spectroscopy, and rendering models for gradient-based inference and system
+            identification.</p>
+          <div class="tools">JAX · Julia · Warp · adjoints</div>
+        </article>
+        <article class="capability">
+          <h3>Inference and uncertainty</h3>
+          <p>Sparse reconstruction, Bayesian uncertainty quantification, and model discovery for physical systems.</p>
+          <div class="tools">SVGD · neural ODEs · generative priors</div>
+        </article>
+        <article class="capability">
+          <h3>Accelerated & distributed simulation</h3>
+          <p>Scientific software from custom GPU kernels to multi-node communication design and compiler-level
+            performance investigation.</p>
+          <div class="tools">CUDA · Kokkos · MPI · XLA · HLO</div>
+        </article>
+        <article class="capability">
+          <h3>Thermal-fluid physics</h3>
+          <p>High-fidelity modeling of fluid flow, combustion, radiative transfer, heat transfer, and multiphase
+            transport.</p>
+          <div class="tools">OpenFOAM · finite volume · DG · Monte Carlo</div>
+        </article>
+      </div>
+    </section>
+    <section id="publications">
+      <div class="section-head">
+        <h2>Selected publications & talks</h2>
+        <p class="section-intro">A focused selection spanning differentiable inference, experimental diagnostics,
+          accelerated modeling, and thermal-fluid systems.</p>
+      </div>
+      <div class="pubs">
+        <article class="publication"><span class="pub-status">In press · 2026</span>
+          <h3>Uncertainty-Aware Differentiable Spectroscopy for Multi-line Temperature and Multi-Species Tomography in
+            an Ammonia/Methane-Fueled McKenna Burner</h3>
+          <p><strong>Tricard, N.</strong>, Shanbhogue, S., Cherry, M., Chen, Z., Guerra-Garcia, C., Ghoniem, A., &amp;
+            Deng, S. <em>Proceedings of the Combustion Institute.</em></p>
+        </article>
+        <article class="publication"><span class="pub-status">Preprint · 2026</span>
+          <h3>3-D representations for hyperspectral flame tomography</h3>
+          <p><strong>Tricard, N.</strong>, Chen, Z., &amp; Deng, S. <a href="https://arxiv.org/abs/2603.27832"
+              target="_blank" rel="noopener">arXiv ↗</a></p>
+        </article>
+        <article class="publication"><span class="pub-status">Journal article · 2025</span>
+          <h3>Hybrid physics-machine learning model for multispecies and temperature inference from FTIR spectra</h3>
+          <p>Chen, Z., <strong>Tricard, N.</strong>, &amp; Deng, S. <em>Proceedings of the Combustion Institute.</em> <a
+              href="https://doi.org/10.1016/j.proci.2025.105811" target="_blank" rel="noopener">DOI ↗</a></p>
+        </article>
+        <article class="publication"><span class="pub-status">Journal article · 2025</span>
+          <h3>Solid-fuel reacting flow in a backward-facing step combustor at varying Reynolds numbers and inlet
+            conditions</h3>
+          <p><strong>Tricard, N.</strong> &amp; Bojko, B. <em>Journal of Propulsion and Power.</em> <a
+              href="https://doi.org/10.2514/1.B40052" target="_blank" rel="noopener">DOI ↗</a></p>
+        </article>
+        <article class="publication"><span class="pub-status">Journal article · 2024</span>
+          <h3>Optimal parameters of Monte Carlo ray tracing solver with line-by-line spectral database for radiation
+            modeling in fire</h3>
+          <p><strong>Tricard, N.</strong>, Fraga, G., &amp; Zhao, X. <em>Proceedings of the Combustion Institute.</em>
+            <a href="https://doi.org/10.1016/j.proci.2024.105293" target="_blank" rel="noopener">DOI ↗</a>
+          </p>
+        </article>
+        <article class="publication"><span class="pub-status">Invited talk · 2026</span>
+          <h3>Multi-GPU Radiative Transport in Participating Media with Kokkos</h3>
+          <p><strong>Tricard, N.</strong> &amp; Deng, S. High Performance Software Foundation Convention, Kokkos user
+            group meeting, Chicago, IL, March 19.</p>
+        </article>
+      </div>
+    </section>
+    <section id="experience">
+      <div class="section-head">
+        <h2>Experience</h2>
+        <p class="section-intro">Research roles spanning mathematical formulation, scientific software, performance
+          engineering, and experimental validation.</p>
+      </div>
+      <div class="timeline">
+        <article class="entry">
+          <div class="dates">2023–2027</div>
+          <div>
+            <h3>MIT · Ph.D. Researcher in Differentiable Physics and Scientific ML</h3>
+            <p>Developing differentiable simulation, inverse-modeling, and uncertainty-quantification methods for
+              reacting and thermal-fluid systems.</p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="dates">2024</div>
+          <div>
+            <h3>Google Research · Simulation Researcher</h3>
+            <p>Built distributed TPU particle simulation for multiphase wildfire CFD within Swirl-LM.</p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="dates">2022–2024</div>
+          <div>
+            <h3>U.S. Naval Research Laboratory · Researcher in GPU-Accelerated Reacting-Flow Simulation</h3>
+            <p>Developed numerical capabilities for a CUDA-accelerated discontinuous-Galerkin reacting-flow solver.</p>
+          </div>
+        </article>
+        <article class="entry">
+          <div class="dates">2020–2023</div>
+          <div>
+            <h3>University of Connecticut · Researcher in GPU Radiative Transport</h3>
+            <p>Led development of multi-GPU Monte Carlo radiation solvers coupled with CFD.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+    <section class="about-contact" id="about">
+      <div>
+        <h2>About</h2>
+        <p>I am a Ph.D. candidate in Mechanical Engineering at MIT. My research combines physical simulation, inverse
+          problems, and high-performance computing. I've built models for reconstructing temperature, composition,
+          kinetics, and transport from indirect measurements, alongside distributed simulation systems spanning GPUs and
+          TPUs.</p>
+        <p>This work includes spectroscopy, PDE-constrained inference, multi-TPU particle transport at Google Research,
+          and multi-GPU Monte Carlo radiative transfer.</p>
+        <p><strong>ESSCI Research Fellow</strong> — Competitive award for collaborative work in flame tomography, June
+          2026–May 2027. Previously a GE Vernova Fellow (2025–2026).</p>
+      </div>
+      <aside class="contact-card" id="contact">
+        <h2>Contact</h2>
+        <p>For research and research-engineering opportunities in computational modeling, inverse problems, and
+          accelerated simulation:</p>
+        <p><a href="mailto:ntricard@mit.edu">ntricard@mit.edu</a><br><a href="https://github.com/nick-jt"
+            target="_blank" rel="noopener">GitHub ↗</a><br><a href="https://www.linkedin.com/in/nick-tricard"
+            target="_blank" rel="noopener">LinkedIn ↗</a></p>
+      </aside>
+    </section>
+    <footer>© <span id="year"></span> Nicolas Tricard</footer>
+  </main>
+  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
 </body>
 
 </html>
